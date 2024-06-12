@@ -1,5 +1,4 @@
-const Main = () => {
-  return <>메인</>;
-};
-
+function Main() {
+  return <div></div>;
+}
 export default Main;
