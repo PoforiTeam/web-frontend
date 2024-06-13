@@ -73,10 +73,12 @@ function KakaoLogin() {
 
   return (
     <>
+      <h1>카카오 로그인</h1>
       <button onClick={() => (window.location.href = KAKAO_AUTH_URL)}>
         카카오 로그인
       </button>
       <button onClick={() => kakaoLogout()}>로그아웃</button>
+      <h3>Unique ID</h3>
       <div>{userInfo?.id}</div>
     </>
   );

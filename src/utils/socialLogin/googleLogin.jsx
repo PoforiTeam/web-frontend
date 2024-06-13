@@ -43,6 +43,7 @@ function GoogleLoginButton() {
 
   return (
     <div>
+      <h1>구글 로그인</h1>
       <h2>React Google Login</h2>
       <br />
       <br />
