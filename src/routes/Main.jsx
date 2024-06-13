@@ -1,4 +1,11 @@
+import KakaoLogin from "../utils/socialLogin/kakaoLogin";
+
 function Main() {
-  return <div></div>;
+  return (
+    <>
+      <KakaoLogin />
+    </>
+  );
 }
+
 export default Main;
