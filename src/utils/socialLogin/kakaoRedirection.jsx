@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { REST_API_KEY, REDIRECT_URI } from "./kakaoLogin";
+import { REST_API_KEY, REDIRECT_URI } from "./KakaoLoginBtn";
+
 const KakaoRedirection = () => {
   const navigate = useNavigate();
   const getToken = async () => {

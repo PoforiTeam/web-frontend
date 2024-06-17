@@ -1,27 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layout";
-import Main from "./routes/Main";
-import Resume from "./routes/Resume";
-import KakaoRedirection from "./utils/socialLogin/KakaoRedirection";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { path: "", element: <Main /> },
-      { path: "resume", element: <Resume /> },
-      { path: "oauth/kakao", element: <KakaoRedirection /> },
-    ],
-  },
-]);
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
 
 function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
