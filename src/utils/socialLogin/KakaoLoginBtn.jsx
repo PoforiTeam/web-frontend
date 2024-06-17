@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const CLIENT_ID = import.meta.env.VITE_KAKAO_RESTAPI_KEY;
-export const REDIRECT_URI = "http://localhost:5173/auth/kakao";
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+export const REST_API_KEY = import.meta.env.VITE_KAKAO_RESTAPI_KEY;
+export const REDIRECT_URI = "http://localhost:5173/oauth/kakao";
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=select_account`;
 
-function KakaoLogin() {
+const KakaoLoginBtn = () => {
   const [userInfo, setUserInfo] = useState(null);
   const getUserData = async token => {
     const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
@@ -82,6 +82,6 @@ function KakaoLogin() {
       <div>{userInfo?.id}</div>
     </>
   );
-}
+};
 
-export default KakaoLogin;
+export default KakaoLoginBtn;

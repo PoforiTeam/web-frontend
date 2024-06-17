@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const NaverLogin = () => {
+const NaverLoginBtn = () => {
   const [user, setUser] = useState(null);
   const [naverLogin, setNaverLogin] = useState(null);
 
@@ -76,4 +76,4 @@ const NaverLogin = () => {
   );
 };
 
-export default NaverLogin;
+export default NaverLoginBtn;

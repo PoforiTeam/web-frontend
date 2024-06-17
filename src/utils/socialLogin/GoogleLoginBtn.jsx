@@ -2,7 +2,7 @@ import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function GoogleLoginButton() {
+const GoogleLoginBtn = () => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
 
@@ -63,5 +63,5 @@ function GoogleLoginButton() {
       )}
     </div>
   );
-}
-export default GoogleLoginButton;
+};
+export default GoogleLoginBtn;

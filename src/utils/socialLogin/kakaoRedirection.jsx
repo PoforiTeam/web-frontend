@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CLIENT_ID, REDIRECT_URI } from "./kakaoLogin";
-function KakaoRedirection() {
+import { REST_API_KEY, REDIRECT_URI } from "./kakaoLogin";
+const KakaoRedirection = () => {
   const navigate = useNavigate();
   const getToken = async () => {
     const token = new URL(window.location.href).searchParams.get("code");
@@ -10,7 +10,7 @@ function KakaoRedirection() {
       "https://kauth.kakao.com/oauth/token",
       {
         grant_type: "authorization_code",
-        client_id: CLIENT_ID,
+        client_id: REST_API_KEY,
         redirect_uri: REDIRECT_URI,
         code: token,
       },
@@ -35,6 +35,6 @@ function KakaoRedirection() {
   }, []);
 
   return <></>;
-}
+};
 
 export default KakaoRedirection;

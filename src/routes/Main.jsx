@@ -1,13 +1,13 @@
-import GoogleLoginButton from "../utils/socialLogin/googleLogin";
-import KakaoLogin from "../utils/socialLogin/kakaoLogin";
-import NaverLogin from "../utils/socialLogin/naverLogin";
+import GoogleLoginBtn from "../utils/socialLogin/GoogleLoginBtn";
+import KakaoLoginBtn from "../utils/socialLogin/KakaoLoginBtn";
+import NaverLoginBtn from "../utils/socialLogin/NaverLoginBtn";
 
 function Main() {
   return (
     <>
-      <GoogleLoginButton />
-      <KakaoLogin />
-      <NaverLogin />
+      <GoogleLoginBtn />
+      <KakaoLoginBtn />
+      <NaverLoginBtn />
     </>
   );
 }
