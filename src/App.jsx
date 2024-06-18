@@ -1,8 +1,20 @@
+import React, { useState } from "react";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes";
+import router from "./router";
+import LoginModal from "./components/modals/LoginModal";
 
-function App() {
-  return <RouterProvider router={router} />;
-}
+const App = () => {
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+  const openLoginModal = () => setLoginModalOpen(true);
+  const closeLoginModal = () => setLoginModalOpen(false);
+
+  return (
+    <div>
+      <RouterProvider router={router(openLoginModal)} />
+      {isLoginModalOpen && <LoginModal onClose={closeLoginModal} />}
+    </div>
+  );
+};
 
 export default App;
