@@ -1,28 +1,14 @@
+import { useEffect } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 import "./Home.scss";
-import { useLogin } from "@/api/hooks/useAuth";
-import { useState } from "react";
-import { AuthProvider } from "../../context/AuthContext";
 
 const Home = () => {
-  const [socialType, setSocialType] = useState("google"); // 초기값을 'google'로 설정
-  const [socialId, setSocialId] = useState("socialId");
-  const loginMutation = useLogin();
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    loginMutation.mutate({ socialType, socialId });
-  };
-
-  if (loginMutation.isLoading) {
-    return <div>Logging in...</div>; // 로그인 진행 중
-  }
-
-  if (loginMutation.isError) {
-    return <div>Error: {loginMutation.error.message}</div>; // 로그인 에러 발생 시
-  }
+  const { auth } = useAuthContext();
+  useEffect(() => {
+    console.log("auth", auth);
+  }, [auth]);
   return (
     <div className="home">
-      <button onClick={handleSubmit}>로그인</button>
       <div className="section">
         <h2>나의 첫 이력서 작성은 포포리로</h2>
         <p>취업, 이직, 아르바이트 이력서 쓰러가기</p>

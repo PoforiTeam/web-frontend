@@ -24,6 +24,6 @@ export const refreshAccessToken = async () => {
 };
 
 export const logout = async () => {
-  const response = await api.post("/auth/logout");
-  return response.data;
+  localStorage.removeItem("access_token");
+  Cookies.remove("refresh_token");
 };
