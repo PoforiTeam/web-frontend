@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import Resume from "./pages/Resume/Resume";
 // import Profile from './pages/Profile';
 import Settings from "./pages/Settings/Settings";
+import KakaoRedirection from "./utils/socialLogin/KakaoRedirection";
 
 const router = openLoginModal =>
   createBrowserRouter([
@@ -12,6 +13,7 @@ const router = openLoginModal =>
       element: <Layout openLoginModal={openLoginModal} />,
       children: [
         { path: "", element: <Home /> },
+        { path: "oauth/kakao", element: <KakaoRedirection /> },
         { path: "resume", element: <Resume /> },
         // { path: 'profile', element: <Profile /> },
         { path: "settings", element: <Settings /> },

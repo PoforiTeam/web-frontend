@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const login = async (socialType, socialId) => {
   const { data } = await api.post("/user/login", {
     social_type: socialType,
-    social_id: socialId,
+    social_id: String(socialId),
   });
   console.log(data);
   localStorage.setItem("access_token", data.response.access_token);

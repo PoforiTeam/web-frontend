@@ -7,45 +7,22 @@ const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST
 const { Kakao } = window;
 
 const KakaoLoginBtn = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const getUserData = async token => {
-    const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-    });
-    setUserInfo(user.data);
-    console.log(user);
-    return user.data;
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const token = localStorage.getItem("token");
-      getUserData(token)
-        .then(data => {
-          setUserInfo(data);
-        })
-        .catch(err => {
-          console.log(err);
-          localStorage.removeItem("token");
-        });
-    }
-  }, []);
-
   return (
-    <>
-      <h1>카카오 로그인</h1>
-      <button onClick={() => (window.location.href = KAKAO_AUTH_URL)}>
-        카카오 로그인
-      </button>
-      <button onClick={() => kakaoLogout()}>로그아웃</button>
-      <h3>Unique ID</h3>
-      <div>{userInfo?.id}</div>
-    </>
+    <button onClick={() => (window.location.href = KAKAO_AUTH_URL)}>
+      카카오 로그인
+    </button>
   );
+};
+
+export const getKakaoLoginData = async kakao_token => {
+  const res = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
+    headers: {
+      Authorization: `Bearer ${kakao_token}`,
+      "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+    },
+  });
+  console.log(res.data);
+  return res.data;
 };
 
 export const kakaoLogout = () => {
@@ -54,13 +31,14 @@ export const kakaoLogout = () => {
     url: "https://kapi.kakao.com/v1/user/logout",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("kakao_token")}`,
     },
   })
     .then(() => {
       // 로그아웃 성공 시 로컬 스토리지에서 사용자 정보 제거
-      localStorage.removeItem("kakaoAccessToken");
-      localStorage.removeItem("kakaoUserProfile");
+      localStorage.removeItem("kakao_token");
+      // localStorage.removeItem("kakaoAccessToken");
+      // localStorage.removeItem("kakaoUserProfile");
       console.log(
         "카카오 인증 액세스 토큰이 존재합니다.",
         Kakao.Auth.getAccessToken()

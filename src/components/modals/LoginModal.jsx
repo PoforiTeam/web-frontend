@@ -3,11 +3,12 @@ import { useState } from "react";
 import { AuthProvider } from "@/context/AuthContext";
 import GoogleLoginBtn from "../../utils/socialLogin/GoogleLoginBtn";
 import Modal from "./Modal";
+import KakaoLoginBtn from "../../utils/socialLogin/KakaoLoginBtn";
 
 const LoginModal = ({ onClose }) => {
   const loginMutation = useLogin();
 
-  const handleSubmit = (socialType, socialId, name) => {
+  const handleLogin = (socialType, socialId, name) => {
     loginMutation.mutate(
       { socialType, socialId, name },
       {
@@ -26,9 +27,9 @@ const LoginModal = ({ onClose }) => {
   return (
     <Modal onClose={onClose}>
       <h2>POFORI</h2>
-      <GoogleLoginBtn handleSubmit={handleSubmit} />
+      <GoogleLoginBtn handleLogin={handleLogin} />
       <button>네이버로 로그인</button>
-      <button>카카오로 로그인</button>
+      <KakaoLoginBtn />
     </Modal>
   );
 };

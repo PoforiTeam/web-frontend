@@ -2,7 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const GoogleLoginBtn = ({ handleSubmit }) => {
+const GoogleLoginBtn = ({ handleLogin }) => {
   const [user, setUser] = useState(null);
 
   const googleLogin = useGoogleLogin({
@@ -28,11 +28,14 @@ const GoogleLoginBtn = ({ handleSubmit }) => {
         .then(res => {
           console.log("동작", res);
 
-          if (handleSubmit) {
-            handleSubmit("google", res.data.id, res.data.name);
+          if (handleLogin) {
+            handleLogin("google", res.data.id, res.data.name);
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          setUser(null);
+        });
     }
   }, [user]);
 

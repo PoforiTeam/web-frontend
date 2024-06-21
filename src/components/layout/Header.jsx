@@ -8,6 +8,7 @@ const Header = ({ onLoginClick }) => {
   const handleLogoutClick = () => {
     logout();
   };
+
   return (
     <header className="header">
       <a className="logo" href="/">
