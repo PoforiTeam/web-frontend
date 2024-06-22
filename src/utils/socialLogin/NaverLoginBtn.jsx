@@ -16,11 +16,6 @@ const NaverLoginBtn = () => {
       clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
       callbackUrl: "http://localhost:5173",
       isPopup: true,
-      loginButton: {
-        color: "green",
-        type: 3,
-        height: 50,
-      },
     });
 
     setNaverLogin(naverLoginInstance);
@@ -56,23 +51,27 @@ const NaverLoginBtn = () => {
   };
 
   return (
-    <div>
-      <h1>네이버 로그인</h1>
-      {user ? (
-        <div>
-          <h2>네이버 로그인 성공!</h2>
-          <h3>사용자 이름</h3>
-          <div>{user.name}</div>
-          <h3>Unique ID</h3>
-          <div>{user.id}</div>
-          <button onClick={naverLogout}>로그아웃</button>
-        </div>
-      ) : (
-        <div>
-          <div id="naverIdLogin"></div>
-        </div>
-      )}
-    </div>
+    <button id="naverIdLogin" className="login_naver">
+      <img src="../src/assets/img/logo/naver.png" />
+      네이버로 로그인
+    </button>
+    //  <div>
+    //   <h1>네이버 로그인</h1>
+    //   {user ? (
+    //     <div>
+    //       <h2>네이버 로그인 성공!</h2>
+    //       <h3>사용자 이름</h3>
+    //       <div>{user.name}</div>
+    //       <h3>Unique ID</h3>
+    //       <div>{user.id}</div>
+    //       <button onClick={naverLogout}>로그아웃</button>
+    //     </div>
+    //   ) : (
+    //     <div>
+    //       <div id="naverIdLogin"></div>
+    //     </div>
+    //   )}
+    // </div>
   );
 };
 

@@ -1,9 +1,9 @@
 import { useLogin } from "@/api/hooks/useAuth";
-import { useState } from "react";
-import { AuthProvider } from "@/context/AuthContext";
+import "./Modal.scss";
 import GoogleLoginBtn from "../../utils/socialLogin/GoogleLoginBtn";
 import Modal from "./Modal";
 import KakaoLoginBtn from "../../utils/socialLogin/KakaoLoginBtn";
+import NaverLoginBtn from "../../utils/socialLogin/NaverLoginBtn";
 
 const LoginModal = ({ onClose }) => {
   const loginMutation = useLogin();
@@ -26,10 +26,13 @@ const LoginModal = ({ onClose }) => {
   }
   return (
     <Modal onClose={onClose}>
-      <h2>POFORI</h2>
-      <GoogleLoginBtn handleLogin={handleLogin} />
-      <button>네이버로 로그인</button>
-      <KakaoLoginBtn />
+      <div className="login-modal">
+        <h2 className="logo">POFORI</h2>
+        <GoogleLoginBtn handleLogin={handleLogin} />
+        <NaverLoginBtn />
+        <KakaoLoginBtn />
+        <span>이용약관과 개인정보수집 및 이용에 동의합니다</span>
+      </div>
     </Modal>
   );
 };

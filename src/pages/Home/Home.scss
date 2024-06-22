@@ -1,44 +1,94 @@
 .home {
-  padding: 2rem;
+  padding: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
 
   .section {
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
+    width: 1190px;
+    display: flex;
+    justify-items: center;
 
-    &:first-child {
-      background-color: #e0e7ff;
-      color: #1f2937;
+    &_column {
+      display: flex;
+      justify-content: space-between;
+      width: 1190px;
+      margin-top: 23px;
+      .section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        max-width: 582px;
+        padding-left: 41px;
+        height: 117px;
+        img {
+          width: 48px;
+          height: 48px;
+        }
+      }
     }
 
+    &_main {
+      margin-top: 60px;
+
+      h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+      .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 94px 0;
+
+        p {
+          font-size: 26px;
+          font-weight: bold;
+          text-align: center;
+          line-height: 34px;
+        }
+        span {
+          font-size: 14px;
+          color: #7c7c7c;
+          text-align: center;
+          margin: 27px 0 34px 0;
+          line-height: 28px;
+        }
+        button {
+          width: 221px;
+          height: 60px;
+          border-radius: 36px;
+          border: 1px solid #bdbdbd;
+          color: #6559ef;
+          font-size: 20px;
+        }
+      }
+    }
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
     h2 {
       margin-top: 0;
-      font-size: 2rem;
+      font-size: 36px;
     }
 
     h3 {
       margin-top: 0;
-      font-size: 1.5rem;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #6b7280;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     a {
       color: #6366f1;
       text-decoration: none;
       font-weight: bold;
+      font-size: 15px;
+      margin-top: 8px;
 
       &:hover {
         text-decoration: underline;
@@ -58,6 +108,31 @@
       &:hover {
         background-color: #4f46e5;
       }
+    }
+  }
+
+  .banner {
+    position: relative;
+    background-color: #786dff;
+    color: white;
+    height: 168px;
+    max-width: 1190px;
+    padding-left: 48px;
+    h2 {
+      font-weight: bold;
+    }
+    h2 + p {
+      margin-top: 20px;
+    }
+    p {
+      font-size: 14px;
+    }
+    img {
+      position: absolute;
+      width: 440px;
+      height: 192px;
+      bottom: 0;
+      right: 0;
     }
   }
 }

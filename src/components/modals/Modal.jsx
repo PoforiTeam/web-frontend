@@ -1,9 +1,10 @@
+import "./Modal.scss";
 const Modal = ({ children, onClose }) => (
   <div className="modal">
     <div className="modal-content">
-      <button onClick={onClose} style={{ float: "right" }}>
-        X
-      </button>
+      <div className="modal-close">
+        <button onClick={onClose}>✖</button>
+      </div>
       {children}
     </div>
   </div>

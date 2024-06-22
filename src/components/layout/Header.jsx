@@ -20,7 +20,14 @@ const Header = ({ onLoginClick }) => {
           {auth.name} <button onClick={handleLogoutClick}>로그아웃</button>
         </h1>
       ) : (
-        <button onClick={onLoginClick}>로그인</button>
+        <button
+          onClick={onLoginClick}
+          style={{
+            fontSize: "14px",
+          }}
+        >
+          로그인
+        </button>
       )}
     </header>
   );

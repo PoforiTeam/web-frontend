@@ -8,8 +8,12 @@ const { Kakao } = window;
 
 const KakaoLoginBtn = () => {
   return (
-    <button onClick={() => (window.location.href = KAKAO_AUTH_URL)}>
-      카카오 로그인
+    <button
+      className="login_kakao"
+      onClick={() => (window.location.href = KAKAO_AUTH_URL)}
+    >
+      <img src="../src/assets/img/logo/kakao.png" />
+      카카오로 로그인
     </button>
   );
 };

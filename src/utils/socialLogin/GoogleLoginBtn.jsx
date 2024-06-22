@@ -41,7 +41,12 @@ const GoogleLoginBtn = ({ handleLogin }) => {
 
   // log out function to log the user out of google and set the profile array to null
 
-  return <button onClick={googleLogin}>Google로 로그인</button>;
+  return (
+    <button className="login_google" onClick={googleLogin}>
+      <img src="../src/assets/img/logo/google.png" />
+      Google로 로그인
+    </button>
+  );
 };
 
 export default GoogleLoginBtn;
