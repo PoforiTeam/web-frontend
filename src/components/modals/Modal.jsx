@@ -3,7 +3,9 @@ const Modal = ({ children, onClose }) => (
   <div className="modal">
     <div className="modal-content">
       <div className="modal-close">
-        <button onClick={onClose}>✖</button>
+        <button onClick={onClose}>
+          <i class="xi-close" />
+        </button>
       </div>
       {children}
     </div>
