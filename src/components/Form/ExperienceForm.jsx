@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 const ExperienceForm = () => {
   const formik = useFormik({
     initialValues: {
-      category: "",
-      activityName: "",
-      organization: "",
-      periodStatus: "",
-      startDate: "",
-      endDate: "",
-      description: "",
+      experience_category: "",
+      experience_name: "",
+      experience_agency: "",
+      experience_is_period: "",
+      experience_start_date: "",
+      experience_end_date: "",
+      experience_detail: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -20,12 +20,12 @@ const ExperienceForm = () => {
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
       <div className="form-group">
-        <label htmlFor="category">구분 *</label>
+        <label htmlFor="experience_category">구분 *</label>
         <select
-          id="category"
-          name="category"
+          id="experience_category"
+          name="experience_category"
           onChange={formik.handleChange}
-          value={formik.values.category}
+          value={formik.values.experience_category}
           className="custom-select"
         >
           <option value="">선택하세요</option>
@@ -39,35 +39,35 @@ const ExperienceForm = () => {
       </div>
       <div className="form-group-flex">
         <div className="form-group">
-          <label htmlFor="activityName">활동명 *</label>
+          <label htmlFor="experience_name">활동명 *</label>
           <input
-            id="activityName"
-            name="activityName"
+            id="experience_name"
+            name="experience_name"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.activityName}
+            value={formik.values.experience_name}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="organization">기관/장소</label>
+          <label htmlFor="experience_agency">기관/장소</label>
           <input
-            id="organization"
-            name="organization"
+            id="experience_agency"
+            name="experience_agency"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.organization}
+            value={formik.values.experience_agency}
           />
         </div>
       </div>
       <div className="form-group-flex">
         <div className="form-group">
-          <label htmlFor="periodStatus">기간 여부 *</label>
+          <label htmlFor="experience_is_period">기간 여부 *</label>
 
           <select
-            id="periodStatus"
-            name="periodStatus"
+            id="experience_is_period"
+            name="experience_is_period"
             onChange={formik.handleChange}
-            value={formik.values.periodStatus}
+            value={formik.values.experience_is_period}
             className="custom-select"
           >
             <option value="">선택하세요</option>
@@ -76,34 +76,34 @@ const ExperienceForm = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="startDate">시작년월</label>
+          <label htmlFor="experience_start_date">시작년월</label>
           <input
-            id="startDate"
-            name="startDate"
+            id="experience_start_date"
+            name="experience_start_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.startDate}
+            value={formik.values.experience_start_date}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="endDate">종료년월</label>
+          <label htmlFor="experience_end_date">종료년월</label>
           <input
-            id="endDate"
-            name="endDate"
+            id="experience_end_date"
+            name="experience_end_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.endDate}
+            value={formik.values.experience_end_date}
           />
         </div>
       </div>
       <div className="form-group">
-        <label htmlFor="description">활동 설명</label>
+        <label htmlFor="experience_detail">활동 설명</label>
         <textarea
-          id="description"
-          name="description"
+          id="experience_detail"
+          name="experience_detail"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.description}
+          value={formik.values.experience_detail}
         />
       </div>
       <div className="button-group">

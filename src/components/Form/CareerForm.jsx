@@ -1,15 +1,15 @@
 import React from "react";
 import { useFormik } from "formik";
 
-const WorkExperienceForm = () => {
+const CareerForm = () => {
   const formik = useFormik({
     initialValues: {
-      companyName: "",
-      jobTitle: "",
-      employmentStatus: "",
-      startDate: "",
-      endDate: "",
-      responsibilities: "",
+      company_name: "",
+      job_title: "",
+      career_status: "",
+      career_start_date: "",
+      career_end_date: "",
+      job_detail: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -35,35 +35,35 @@ const WorkExperienceForm = () => {
       </div>
       <div className="form-group-flex">
         <div className="form-group">
-          <label htmlFor="companyName">회사명 *</label>
+          <label htmlFor="company_name">회사명 *</label>
           <input
-            id="companyName"
-            name="companyName"
+            id="company_name"
+            name="company_name"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.companyName}
+            value={formik.values.company_name}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="jobTitle">직무</label>
+          <label htmlFor="job_title">직무</label>
           <input
-            id="jobTitle"
-            name="jobTitle"
+            id="job_title"
+            name="job_title"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.jobTitle}
+            value={formik.values.job_title}
           />
         </div>
       </div>
       <div className="form-group-flex">
         <div className="form-group">
-          <label htmlFor="employmentStatus">재직 여부 *</label>
+          <label htmlFor="career_status">재직 여부 *</label>
 
           <select
-            id="employmentStatus"
-            name="employmentStatus"
+            id="career_status"
+            name="career_status"
             onChange={formik.handleChange}
-            value={formik.values.employmentStatus}
+            value={formik.values.career_status}
             className="custom-select"
           >
             <option value="">선택하세요</option>
@@ -72,34 +72,34 @@ const WorkExperienceForm = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="startDate">입사년월</label>
+          <label htmlFor="career_start_date">입사년월</label>
           <input
-            id="startDate"
-            name="startDate"
+            id="career_start_date"
+            name="career_start_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.startDate}
+            value={formik.values.career_start_date}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="endDate">재직년월</label>
+          <label htmlFor="career_end_date">재직년월</label>
           <input
-            id="endDate"
-            name="endDate"
+            id="career_end_date"
+            name="career_end_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.endDate}
+            value={formik.values.career_end_date}
           />
         </div>
       </div>
       <div className="form-group">
-        <label htmlFor="responsibilities">담당 업무</label>
+        <label htmlFor="job_detail">담당 업무</label>
         <textarea
-          id="responsibilities"
-          name="responsibilities"
+          id="job_detail"
+          name="job_detail"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.responsibilities}
+          value={formik.values.job_detail}
         />
       </div>
       <div className="button-group">
@@ -114,4 +114,4 @@ const WorkExperienceForm = () => {
   );
 };
 
-export default WorkExperienceForm;
+export default CareerForm;

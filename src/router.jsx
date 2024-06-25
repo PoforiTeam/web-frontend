@@ -14,7 +14,7 @@ const router = openLoginModal =>
       children: [
         { path: "", element: <Home /> },
         { path: "oauth/kakao", element: <KakaoRedirection /> },
-        { path: "resume", element: <Resume /> },
+        { path: "resume/:id", element: <Resume /> },
         // { path: 'profile', element: <Profile /> },
         { path: "settings", element: <Settings /> },
       ],

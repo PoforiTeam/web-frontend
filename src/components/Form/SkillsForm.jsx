@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 const SkillsForm = () => {
   const formik = useFormik({
     initialValues: {
-      category: "",
-      description: "",
+      skill_category: "",
+      skill_detail: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -15,12 +15,12 @@ const SkillsForm = () => {
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
       <div className="form-group">
-        <label htmlFor="category">구분 *</label>
+        <label htmlFor="skill_category">구분 *</label>
         <select
-          id="category"
-          name="category"
+          id="skill_category"
+          name="skill_category"
           onChange={formik.handleChange}
-          value={formik.values.category}
+          value={formik.values.skill_category}
           className="custom-select"
         >
           <option value="">선택하세요</option>
@@ -39,13 +39,13 @@ const SkillsForm = () => {
         <p>🙆‍♀️&emsp;구분 별로 스킬 예시, 스킬 설명쓰는 법에 대한 안내.</p>
       </div>
       <div className="form-group">
-        <label htmlFor="description">스킬 설명</label>
+        <label htmlFor="skill_detail">스킬 설명</label>
         <textarea
-          id="description"
-          name="description"
+          id="skill_detail"
+          name="skill_detail"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.description}
+          value={formik.values.skill_detail}
         />
       </div>
       <div className="button-group">

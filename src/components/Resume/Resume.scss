@@ -111,7 +111,14 @@ select {
 .image-upload {
   text-align: center;
 }
+.image-preview {
+  width: auto;
+  height: auto;
+  max-width: 230px;
+  max-height: 230px;
+}
 .image-upload-box {
+  overflow: hiddenaxiosInstance;
   width: 230px;
   height: 230px;
   border: 1px solid #bdbdbd;

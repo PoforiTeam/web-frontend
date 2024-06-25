@@ -1,11 +1,11 @@
 import EducationForm from "../../components/Form/EducationForm";
 import ExperienceForm from "../../components/Form/ExperienceForm";
-import IntroForm from "../../components/Form/IntroForm";
+import IntroduceForm from "../../components/Form/IntroduceForm";
 import LinksForm from "../../components/Form/LinksForm";
 import ProfileForm from "../../components/Form/ProfileForm";
 import ProjectForm from "../../components/Form/ProjectForm";
 import SkillsForm from "../../components/Form/SkillsForm";
-import WorkExperienceForm from "../../components/Form/WorkExperienceForm";
+import CareerForm from "../../components/Form/CareerForm";
 import Sidebar from "../../components/layout/Sidebar";
 import AddButton from "../../components/Resume/AddButton";
 import ResumeSection from "../../components/Resume/ResumeSection";
@@ -36,11 +36,11 @@ const Resume = () => (
         </div>
         <ProfileForm />
         <AddButton section="자기소개" />
-        <IntroForm />
+        <IntroduceForm />
         <ResumeSection title="교육" />
         <EducationForm />
         <ResumeSection title="경력" />
-        <WorkExperienceForm />
+        <CareerForm />
         <ResumeSection title="프로젝트" />
         <ProjectForm />
         <ResumeSection title="경험" />

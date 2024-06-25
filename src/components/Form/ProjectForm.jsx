@@ -4,14 +4,14 @@ import { useFormik } from "formik";
 const ProjectForm = () => {
   const formik = useFormik({
     initialValues: {
-      projectName: "",
-      organization: "",
-      status: "",
-      startDate: "",
-      endDate: "",
-      projectDescription: "",
-      role: "",
-      technologies: "",
+      project_name: "",
+      project_agency: "",
+      project_status: "",
+      project_start_date: "",
+      project_end_date: "",
+      project_detail: "",
+      project_role: "",
+      project_tech: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -21,34 +21,34 @@ const ProjectForm = () => {
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
       <div className="form-group" style={{ width: "630px" }}>
-        <label htmlFor="projectName">프로젝트명 *</label>
+        <label htmlFor="project_name">프로젝트명 *</label>
         <input
-          id="projectName"
-          name="projectName"
+          id="project_name"
+          name="project_name"
           type="text"
           onChange={formik.handleChange}
-          value={formik.values.projectName}
+          value={formik.values.project_name}
         />
       </div>
       <div className="form-group" style={{ width: "630px" }}>
-        <label htmlFor="organization">소속/기관</label>
+        <label htmlFor="project_agency">소속/기관</label>
         <input
-          id="organization"
-          name="organization"
+          id="project_agency"
+          name="project_agency"
           type="text"
           onChange={formik.handleChange}
-          value={formik.values.organization}
+          value={formik.values.project_agency}
         />
       </div>
 
       <div className="form-group-flex">
         <div className="form-group">
-          <label htmlFor="status">진행 여부 *</label>
+          <label htmlFor="project_status">진행 여부 *</label>
           <select
-            id="status"
-            name="status"
+            id="project_status"
+            name="project_status"
             onChange={formik.handleChange}
-            value={formik.values.status}
+            value={formik.values.project_status}
             className="custom-select"
           >
             <option value="">선택하세요</option>
@@ -57,23 +57,23 @@ const ProjectForm = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="startDate">입학년월</label>
+          <label htmlFor="project_start_date">입학년월</label>
           <input
-            id="startDate"
-            name="startDate"
+            id="project_start_date"
+            name="project_start_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.startDate}
+            value={formik.values.project_start_date}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="endDate">졸업년월</label>
+          <label htmlFor="project_end_date">졸업년월</label>
           <input
-            id="endDate"
-            name="endDate"
+            id="project_end_date"
+            name="project_end_date"
             type="month"
             onChange={formik.handleChange}
-            value={formik.values.endDate}
+            value={formik.values.project_end_date}
           />
         </div>
       </div>
@@ -81,33 +81,33 @@ const ProjectForm = () => {
         <p>🙆‍♀️&emsp;아무도 도와주는 말</p>
       </div>
       <div className="form-group">
-        <label htmlFor="projectDescription">프로젝트 소개</label>
+        <label htmlFor="project_detail">프로젝트 소개</label>
         <textarea
-          id="projectDescription"
-          name="projectDescription"
+          id="project_detail"
+          name="project_detail"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.projectDescription}
+          value={formik.values.project_detail}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="role">나의 역할</label>
+        <label htmlFor="project_project_role">나의 역할</label>
         <textarea
-          id="role"
-          name="role"
+          id="project_role"
+          name="project_role"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.role}
+          value={formik.values.project_role}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="technologies">사용 기술</label>
+        <label htmlFor="project_tech">사용 기술</label>
         <textarea
-          id="technologies"
-          name="technologies"
+          id="project_tech"
+          name="project_tech"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.technologies}
+          value={formik.values.project_tech}
         />
       </div>
       <div className="button-group">

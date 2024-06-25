@@ -1,21 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const ProfileForm = () => {
+  const [imagePreview, setImagePreview] = useState(null);
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
-      title: "",
-      jobTitle: "",
+      resume_id: Number(id),
+      profile_title: "",
+      job_title: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createProfile(values);
     },
   });
 
+  const createProfile = async values => {
+    try {
+      const res = await resumeApi.profile(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const uploadImage = async img => {
+    try {
+      const form = new FormData();
+      form.append("images", img);
+      const { data } = await resumeApi.uploadImage(form);
+      console.log(data.response.image_urls[0]);
+      formik.setFieldValue("profile_image", data.response.image_urls[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const handleImageUpload = event => {
-    formik.setFieldValue("profileImage", event.currentTarget.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      uploadImage(file);
+    }
   };
 
   return (
@@ -33,25 +67,25 @@ const ProfileForm = () => {
       <div className="form-group-flex">
         <div style={{ minWidth: "630px" }}>
           <div className="form-group">
-            <label htmlFor="title">타이틀 *</label>
+            <label htmlFor="profile_title">타이틀 *</label>
             <input
-              id="title"
-              name="title"
+              id="profile_title"
+              name="profile_title"
               type="text"
               maxLength="30"
               onChange={formik.handleChange}
-              value={formik.values.title}
+              value={formik.values.profile_title}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="jobTitle">직무/직업 *</label>
+            <label htmlFor="job_title">직무/직업 *</label>
             <input
-              id="jobTitle"
-              name="jobTitle"
+              id="job_title"
+              name="job_title"
               type="text"
               maxLength="30"
               onChange={formik.handleChange}
-              value={formik.values.jobTitle}
+              value={formik.values.job_title}
             />
           </div>
           <div className="form-group-flex">
@@ -66,33 +100,43 @@ const ProfileForm = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="phoneNumber">휴대폰 번호</label>
+              <label htmlFor="phone">휴대폰 번호</label>
               <input
-                id="phoneNumber"
-                name="phoneNumber"
+                id="phone"
+                name="phone"
                 type="text"
                 onChange={formik.handleChange}
-                value={formik.values.phoneNumber}
+                value={formik.values.phone}
               />
             </div>
           </div>
         </div>
 
         <div className="form-group image-upload">
-          <label htmlFor="profileImage"></label>
-          <input
-            id="profileImage"
-            name="profileImage"
-            type="file"
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-          />
-          <div
-            className="image-upload-box"
-            onClick={() => document.getElementById("profileImage").click()}
-          >
-            이미지 업로드
-          </div>
+          {" "}
+          {imagePreview ? (
+            <div className="image-upload-box">
+              {" "}
+              <img src={imagePreview} alt="Preview" className="image-preview" />
+            </div>
+          ) : (
+            <>
+              <label htmlFor="profile_image"></label>
+              <input
+                id="profile_image"
+                name="profile_image"
+                type="file"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+              />
+              <div
+                className="image-upload-box"
+                onClick={() => document.getElementById("profile_image").click()}
+              >
+                이미지 업로드
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="button-group">

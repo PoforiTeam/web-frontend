@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 const LinksForm = () => {
   const formik = useFormik({
     initialValues: {
-      category: "",
-      link: "",
+      link_category: "",
+      link_detail: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -15,12 +15,12 @@ const LinksForm = () => {
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
       <div className="form-group">
-        <label htmlFor="category">구분 *</label>
+        <label htmlFor="link_category">구분 *</label>
         <select
-          id="category"
-          name="category"
+          id="link_category"
+          name="link_category"
           onChange={formik.handleChange}
-          value={formik.values.category}
+          value={formik.values.link_category}
           className="custom-select"
         >
           <option value="">선택하세요</option>
@@ -34,13 +34,13 @@ const LinksForm = () => {
         </select>
       </div>
       <div className="form-group">
-        <label htmlFor="link">링크</label>
+        <label htmlFor="link_detail">링크</label>
         <input
-          id="link"
-          name="link"
+          id="link_detail"
+          name="link_detail"
           type="text"
           onChange={formik.handleChange}
-          value={formik.values.link}
+          value={formik.values.link_detail}
         />
       </div>
       <div className="button-group">

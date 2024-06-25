@@ -3,11 +3,11 @@ const Sidebar = () => (
     <nav>
       <ul className="top-menu">
         <li>
-          <i class="xi-home" />
+          <i className="xi-home" />
           메인 화면으로
         </li>
         <li>
-          <i class="xi-cog" />
+          <i className="xi-cog" />
           설정
         </li>
       </ul>
@@ -17,25 +17,25 @@ const Sidebar = () => (
         <h4>이지혜의 이력서</h4>
         <ul className="resume-menu">
           <li>
-            <i class="xi-angle-right-min" /> 프로필
+            <i className="xi-angle-right-min" /> 프로필
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 교육
+            <i className="xi-angle-right-min" /> 교육
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 경력
+            <i className="xi-angle-right-min" /> 경력
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 프로젝트
+            <i className="xi-angle-right-min" /> 프로젝트
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 경험
+            <i className="xi-angle-right-min" /> 경험
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 스킬
+            <i className="xi-angle-right-min" /> 스킬
           </li>
           <li>
-            <i class="xi-angle-right-min" /> 링크
+            <i className="xi-angle-right-min" /> 링크
           </li>
         </ul>
       </div>

@@ -1,10 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
 
-const IntroForm = () => {
+const IntroduceForm = () => {
   const formik = useFormik({
     initialValues: {
-      selfIntroduction: "",
+      introduce_text: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
@@ -21,13 +21,13 @@ const IntroForm = () => {
         </p>
       </div>
       <div className="form-group">
-        <label htmlFor="selfIntroduction">자기소개 내용</label>
+        <label htmlFor="introduce_text">자기소개 내용</label>
         <textarea
-          id="selfIntroduction"
-          name="selfIntroduction"
+          id="introduce_text"
+          name="introduce_text"
           maxLength="500"
           onChange={formik.handleChange}
-          value={formik.values.selfIntroduction}
+          value={formik.values.introduce_text}
         />
       </div>
       <div className="button-group">
@@ -42,4 +42,4 @@ const IntroForm = () => {
   );
 };
 
-export default IntroForm;
+export default IntroduceForm;

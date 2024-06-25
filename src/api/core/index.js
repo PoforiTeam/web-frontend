@@ -76,7 +76,7 @@ instance.interceptors.response.use(
         "Authorization"
       ] = `Bearer ${newAccessToken}`;
       originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-      return axiosInstance(originalRequest);
+      return axios(originalRequest);
     }
     return Promise.reject(error);
   }

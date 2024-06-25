@@ -2,10 +2,21 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import "./Home.scss";
 import { useNavigate } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const Home = () => {
   const { auth } = useAuthContext();
   const navigate = useNavigate();
+
+  const createResume = async () => {
+    try {
+      const { data } = await resumeApi.create();
+      console.log(data.response.resume_id);
+      navigate(`/resume/${data.response.resume_id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     console.log("auth", auth);
   }, [auth]);
@@ -47,9 +58,7 @@ const Home = () => {
             <br />
             나만의 이력서 페이지가 완성되어요
           </span>
-          <button onClick={() => navigate("/resume")}>
-            지금 작성 시작하기
-          </button>
+          <button onClick={createResume}>지금 작성 시작하기</button>
         </div>
       </div>
     </div>
