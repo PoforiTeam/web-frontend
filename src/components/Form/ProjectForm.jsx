@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const ProjectForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       project_name: "",
       project_agency: "",
       project_status: "",
@@ -15,8 +19,18 @@ const ProjectForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createProject(values);
     },
   });
+
+  const createProject = async values => {
+    try {
+      const res = await resumeApi.project(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
@@ -52,8 +66,8 @@ const ProjectForm = () => {
             className="custom-select"
           >
             <option value="">선택하세요</option>
-            <option value="completed">완료</option>
-            <option value="ongoing">진행중</option>
+            <option value="완료">완료</option>
+            <option value="진행중">진행중</option>
           </select>
         </div>
         <div className="form-group">

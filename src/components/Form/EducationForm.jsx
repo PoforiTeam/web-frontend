@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const EducationForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       education_category: "",
       education_name: "",
       major: "",
@@ -14,8 +18,18 @@ const EducationForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createEducation(values);
     },
   });
+
+  const createEducation = async values => {
+    try {
+      const res = await resumeApi.education(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
@@ -29,10 +43,10 @@ const EducationForm = () => {
           className="custom-select"
         >
           <option value="">선택하세요</option>
-          <option value="highschool">고등학교</option>
-          <option value="bachelor">대학교</option>
-          <option value="master">석사</option>
-          <option value="doctor">박사</option>
+          <option value="고등학교">고등학교</option>
+          <option value="대학교">대학교</option>
+          <option value="석사">석사</option>
+          <option value="박사">박사</option>
         </select>
       </div>
       <div className="form-group-flex">
@@ -67,10 +81,10 @@ const EducationForm = () => {
             value={formik.values.education_status}
           >
             <option value="">선택하세요</option>
-            <option value="graduated">졸업</option>
-            <option value="attending">재학중</option>
-            <option value="leave">휴학</option>
-            <option value="dropout">중퇴</option>
+            <option value="졸업">졸업</option>
+            <option value="재학중">재학중</option>
+            <option value="휴학">휴학</option>
+            <option value="중퇴">중퇴</option>
           </select>
         </div>
         <div className="form-group">

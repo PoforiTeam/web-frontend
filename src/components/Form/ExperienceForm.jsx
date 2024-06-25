@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const ExperienceForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       experience_category: "",
       experience_name: "",
       experience_agency: "",
@@ -14,8 +18,18 @@ const ExperienceForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createExperience(values);
     },
   });
+
+  const createExperience = async values => {
+    try {
+      const res = await resumeApi.experience(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
@@ -29,12 +43,12 @@ const ExperienceForm = () => {
           className="custom-select"
         >
           <option value="">선택하세요</option>
-          <option value="intern">인턴</option>
-          <option value="volunteer">자원봉사</option>
-          <option value="club">동아리</option>
-          <option value="parttime">아르바이트</option>
-          <option value="research">수상</option>
-          <option value="project">프로젝트</option>
+          <option value="인턴">인턴</option>
+          <option value="자원봉사">자원봉사</option>
+          <option value="동아리">동아리</option>
+          <option value="아르바이트">아르바이트</option>
+          <option value="수상">수상</option>
+          <option value="프로젝트">프로젝트</option>
         </select>
       </div>
       <div className="form-group-flex">
@@ -71,8 +85,8 @@ const ExperienceForm = () => {
             className="custom-select"
           >
             <option value="">선택하세요</option>
-            <option value="yes">기간 있음</option>
-            <option value="no">기간 없음</option>
+            <option value="기간 있음">기간 있음</option>
+            <option value="기간 없음">기간 없음</option>
           </select>
         </div>
         <div className="form-group">

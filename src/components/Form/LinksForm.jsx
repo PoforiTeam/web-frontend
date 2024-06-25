@@ -1,16 +1,30 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const LinksForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       link_category: "",
       link_detail: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createLink(values);
     },
   });
+
+  const createLink = async values => {
+    try {
+      const res = await resumeApi.link(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>

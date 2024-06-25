@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const CareerForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       company_name: "",
       job_title: "",
       career_status: "",
@@ -13,8 +17,18 @@ const CareerForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createCareer(values);
     },
   });
+
+  const createCareer = async values => {
+    try {
+      const res = await resumeApi.career(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
@@ -67,8 +81,8 @@ const CareerForm = () => {
             className="custom-select"
           >
             <option value="">선택하세요</option>
-            <option value="employed">재직중</option>
-            <option value="unemployed">퇴사</option>
+            <option value="재직중">재직중</option>
+            <option value="퇴사">퇴사</option>
           </select>
         </div>
         <div className="form-group">

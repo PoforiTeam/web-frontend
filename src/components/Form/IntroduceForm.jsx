@@ -1,16 +1,28 @@
 import React from "react";
 import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
+import { resumeApi } from "../../api/resumeApi";
 
 const IntroduceForm = () => {
+  const { id } = useParams();
   const formik = useFormik({
     initialValues: {
+      resume_id: Number(id),
       introduce_text: "",
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      createIntroduce(values);
     },
   });
-
+  const createIntroduce = async values => {
+    try {
+      const res = await resumeApi.introduce(values);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <form className="resume-form" onSubmit={formik.handleSubmit}>
       <h2>자기소개</h2>

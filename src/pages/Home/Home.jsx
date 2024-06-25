@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import "./Home.scss";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { resumeApi } from "../../api/resumeApi";
 const Home = () => {
   const { auth } = useAuthContext();
   const navigate = useNavigate();
+  const [resumeList, setResumeList] = useState(null);
 
   const createResume = async () => {
     try {
@@ -17,8 +18,24 @@ const Home = () => {
       console.log(err);
     }
   };
+
+  const getResumeList = async () => {
+    try {
+      const params = {
+        get_all: true,
+      };
+      const { data } = await resumeApi.list(params);
+      console.log(data.response.result);
+      setResumeList(data.response.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     console.log("auth", auth);
+    if (auth) {
+      getResumeList();
+    }
   }, [auth]);
   return (
     <div className="home">
@@ -46,21 +63,32 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="section_main">
-        <h3>이력서 메인</h3>
-        <div className="section">
-          <p>
-            이력서 템플릿 고민하지 말고
-            <br />빈 칸만 채워주세요 ✍️
-          </p>
-          <span>
-            단계 별로 간단하게 적기만 해도
-            <br />
-            나만의 이력서 페이지가 완성되어요
-          </span>
-          <button onClick={createResume}>지금 작성 시작하기</button>
+      {resumeList ? (
+        <div className="section_main">
+          <h3>이력서 메인</h3>
+          <div className="section">
+            {resumeList?.map(list => (
+              <div>{list?.resume_title}</div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="section_main">
+          <h3>이력서 메인</h3>
+          <div className="section">
+            <p>
+              이력서 템플릿 고민하지 말고
+              <br />빈 칸만 채워주세요 ✍️
+            </p>
+            <span>
+              단계 별로 간단하게 적기만 해도
+              <br />
+              나만의 이력서 페이지가 완성되어요
+            </span>
+            <button onClick={createResume}>지금 작성 시작하기</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
