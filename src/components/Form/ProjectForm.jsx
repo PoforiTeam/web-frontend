@@ -19,7 +19,11 @@ const ProjectForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
-      createProject(values);
+      createProject({
+        ...values,
+        project_start_date: String(values.project_start_date),
+        project_end_date: String(values.project_end_date),
+      });
     },
   });
 

@@ -17,7 +17,11 @@ const CareerForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
-      createCareer(values);
+      createCareer({
+        ...values,
+        career_start_date: String(values.career_start_date),
+        career_end_date: String(values.career_end_date),
+      });
     },
   });
 

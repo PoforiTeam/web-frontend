@@ -18,7 +18,11 @@ const ExperienceForm = () => {
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
-      createExperience(values);
+      createExperience({
+        ...values,
+        experience_start_date: String(values.experience_start_date),
+        experience_end_date: String(values.experience_end_date),
+      });
     },
   });
 
