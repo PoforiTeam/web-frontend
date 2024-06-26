@@ -9,6 +9,44 @@ const EducationForm = () => {
   const [educations, setEducations] = useState([]);
   const [editIndices, setEditIndices] = useState([]);
   const [isNewForm, setIsNewForm] = useState(false);
+  const [res, setRes] = useState([]);
+  const [grab, setGrab] = useState(null);
+  const onDragOver = e => {
+    e.preventDefault();
+  };
+
+  const onDragStart = e => {
+    setGrab(e.target);
+    e.target.classList.add("grabbing");
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.target);
+  };
+
+  const onDragEnd = e => {
+    e.target.classList.remove("grabbing");
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const onDrop = e => {
+    let grabPosition = Number(grab.dataset.position);
+    let targetPosition = Number(e.target.dataset.position);
+
+    let _list = [...res];
+    console.log(" _list[grabPosition]", _list[grabPosition]);
+    console.log(" _list[targetPosition]", _list[targetPosition]);
+
+    _list[grabPosition] = _list.splice(
+      targetPosition,
+      1,
+      _list[grabPosition]
+    )[0];
+    console.log(_list, targetPosition, grabPosition);
+    setRes(_list);
+  };
+
+  useEffect(() => {
+    console.log("grab", grab);
+  }, [grab]);
 
   const getEducationDetail = async () => {
     try {
@@ -16,6 +54,7 @@ const EducationForm = () => {
       console.log(data.response);
       if (data.response.result.length > 0) {
         setEducations(data.response.result);
+        setRes(data.response.result);
       }
     } catch (err) {
       console.log(err);
@@ -41,6 +80,10 @@ const EducationForm = () => {
   useEffect(() => {
     getEducationDetail();
   }, []);
+
+  useEffect(() => {
+    console.log(res);
+  }, [res]);
 
   return (
     <>
@@ -69,6 +112,11 @@ const EducationForm = () => {
         <EducationFormItem
           key={education.education_id}
           id={id}
+          index={index}
+          onDragOver={onDragOver}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDrop={onDrop}
           education={education}
           isEdit={editIndices.includes(index)}
           handleEdit={() => handleEdit(index)}
