@@ -118,7 +118,7 @@ const IntroduceForm = () => {
         </form>
       ) : formik.values.introduce_text.length > 0 ? (
         <ResumeBox handleEdit={() => setEdit(true)}>
-          <div className="introduce-edit">{formik.values.introduce_text}</div>
+          <div className="introduce-item">{formik.values.introduce_text}</div>
         </ResumeBox>
       ) : (
         <AddButton section="자기소개" onClick={() => setEdit(true)} />

@@ -122,7 +122,7 @@ const ProfileForm = () => {
   return (
     <>
       <ResumeBox handleEdit={() => setEdit(true)}>
-        <div className="profile-edit">
+        <div className="profile-item">
           <div>
             <h1 style={{ color: formik.values.profile_title && "#000" }}>
               {formik.values.profile_title

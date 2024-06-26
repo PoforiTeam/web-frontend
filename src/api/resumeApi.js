@@ -6,6 +6,7 @@ export const resumeApi = {
   copy: id => api.post(`/resume/copy?resume_id=${id}`),
   list: params => api.get("/resume/list", params),
   uploadImage: form => api.formPost("/resume/image", form),
+  detail: id => api.get(`/resume/?resume_id=${id}`),
   profile: {
     detail: id => api.get(`/resume/profile?resume_id=${id}`),
     create: params => api.post("/resume/profile", params),
@@ -18,7 +19,12 @@ export const resumeApi = {
     update: params => api.put("/resume/introduce", params),
     delete: id => api.delete(`/resume/introduce?introduce_id=${id}`),
   },
-  createEducation: params => api.post("/resume/education", params),
+  education: {
+    detail: id => api.get(`/resume/education?resume_id=${id}`),
+    create: params => api.post("/resume/education", params),
+    update: params => api.put("/resume/education", params),
+    delete: id => api.delete(`/resume/education?education_id=${id}`),
+  },
   createCareer: params => api.post("/resume/career", params),
   createProject: params => api.post("/resume/project", params),
   createExperience: params => api.post("/resume/experience", params),
