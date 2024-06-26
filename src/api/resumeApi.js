@@ -12,7 +12,12 @@ export const resumeApi = {
     update: params => api.put("/resume/profile", params),
     delete: id => api.delete(`/resume/profile?profile_id=${id}`),
   },
-  createIntroduce: params => api.post("/resume/introduce", params),
+  introduce: {
+    detail: id => api.get(`/resume/introduce?resume_id=${id}`),
+    create: params => api.post("/resume/introduce", params),
+    update: params => api.put("/resume/introduce", params),
+    delete: id => api.delete(`/resume/introduce?introduce_id=${id}`),
+  },
   createEducation: params => api.post("/resume/education", params),
   createCareer: params => api.post("/resume/career", params),
   createProject: params => api.post("/resume/project", params),

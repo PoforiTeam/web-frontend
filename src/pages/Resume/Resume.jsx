@@ -22,7 +22,6 @@ const Resume = () => (
       </div>
       <div className="resume-main">
         <ProfileForm />
-        <AddButton section="자기소개" />
         <IntroduceForm />
         <ResumeSection title="교육" />
         <EducationForm />

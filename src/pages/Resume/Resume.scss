@@ -30,8 +30,46 @@
   .resume-main {
     max-width: 1020px;
     margin-top: 100px;
+    .resume-box {
+      position: relative;
+      padding: 30px 15px;
+      margin: 0 15px;
+      border-radius: 10px;
+      &:hover {
+        background-color: #f5f5f5;
+        .resume-box__icon {
+          top: 15px;
+          right: 30px;
+          position: absolute;
+          display: flex;
+          gap: 10px;
+          div {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            i {
+              font-size: 20px;
+              color: #bfbfbf;
+            }
+          }
+        }
+      }
+      &__icon {
+        display: none;
+      }
+    }
+    .profile-edit,
+    .introduce-edit {
+      // margin: 0 15px;
+    }
     .profile-edit {
-      padding: 0 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -78,12 +116,16 @@
         max-height: 260px;
       }
     }
+    .introduce-edit {
+      font-size: 20px;
+    }
   }
   .resume-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px 30px 0 30px;
+    margin: 0 15px;
+    padding: 30px 15px 0 15px;
     border-top: 1px solid #c7c7c7;
     margin-top: 20px;
     h2 {
