@@ -19,7 +19,7 @@ const LinksForm = () => {
 
   const createLink = async values => {
     try {
-      const res = await resumeApi.link(values);
+      const res = await resumeApi.createLink(values);
       console.log(res);
     } catch (err) {
       console.log(err);

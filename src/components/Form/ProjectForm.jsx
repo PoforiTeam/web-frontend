@@ -29,7 +29,7 @@ const ProjectForm = () => {
 
   const createProject = async values => {
     try {
-      const res = await resumeApi.project(values);
+      const res = await resumeApi.createProject(values);
       console.log(res);
     } catch (err) {
       console.log(err);

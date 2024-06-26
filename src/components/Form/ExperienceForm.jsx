@@ -28,7 +28,7 @@ const ExperienceForm = () => {
 
   const createExperience = async values => {
     try {
-      const res = await resumeApi.experience(values);
+      const res = await resumeApi.createExperience(values);
       console.log(res);
     } catch (err) {
       console.log(err);

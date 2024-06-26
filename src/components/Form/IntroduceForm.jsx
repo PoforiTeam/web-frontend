@@ -17,7 +17,7 @@ const IntroduceForm = () => {
   });
   const createIntroduce = async values => {
     try {
-      const res = await resumeApi.introduce(values);
+      const res = await resumeApi.createIntroduce(values);
       console.log(res);
     } catch (err) {
       console.log(err);

@@ -27,7 +27,7 @@ const CareerForm = () => {
 
   const createCareer = async values => {
     try {
-      const res = await resumeApi.career(values);
+      const res = await resumeApi.createCareer(values);
       console.log(res);
     } catch (err) {
       console.log(err);

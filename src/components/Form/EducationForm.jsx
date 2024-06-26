@@ -24,7 +24,7 @@ const EducationForm = () => {
 
   const createEducation = async values => {
     try {
-      const res = await resumeApi.education(values);
+      const res = await resumeApi.createEducation(values);
       console.log(res);
     } catch (err) {
       console.log(err);

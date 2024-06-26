@@ -21,19 +21,6 @@ const Resume = () => (
         </div>
       </div>
       <div className="resume-main">
-        <div className="profile-edit">
-          <div>
-            <h1>이력서 타이틀</h1>
-            <p>직무명을 입력하세요</p>
-            <p>
-              <i className="xi-mail" /> 이메일을 입력하세요
-            </p>
-            <p>
-              <i className="xi-call" /> 핸드폰 번호를 입력하세요
-            </p>
-          </div>
-          <div className="profile-picture">사진을 등록해주세요</div>
-        </div>
         <ProfileForm />
         <AddButton section="자기소개" />
         <IntroduceForm />

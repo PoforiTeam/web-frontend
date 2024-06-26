@@ -19,7 +19,7 @@ const SkillsForm = () => {
 
   const createSkill = async values => {
     try {
-      const res = await resumeApi.skill(values);
+      const res = await resumeApi.createSkill(values);
       console.log(res);
     } catch (err) {
       console.log(err);
