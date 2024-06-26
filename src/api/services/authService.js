@@ -19,7 +19,7 @@ export const login = async (socialType, socialId) => {
 export const refreshAccessToken = async () => {
   const refresh_token = Cookies.get("refresh_token");
   const { data } = await api.post("/user/refresh", { refresh_token });
-  localStorage.setItem("accessToken", data.response.access_token);
+  localStorage.setItem("access_token", data.response.access_token);
   return data.response.access_token;
 };
 

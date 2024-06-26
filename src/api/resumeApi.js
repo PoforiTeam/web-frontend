@@ -2,6 +2,8 @@ import { api } from "./core";
 
 export const resumeApi = {
   create: params => api.post("/resume/", params),
+  delete: id => api.delete(`/resume/?resume_id=${id}`),
+  copy: id => api.post(`/resume/copy?resume_id=${id}`),
   list: params => api.get("/resume/list", params),
   uploadImage: form => api.formPost("/resume/image", form),
   profile: params => api.post("/resume/profile", params),

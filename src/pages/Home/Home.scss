@@ -1,11 +1,24 @@
 .home {
   padding: 4rem;
+  padding-bottom: 8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .section {
+  .add-btn {
+    font-size: 24px;
+  }
+  .resume_list {
+    width: 1190px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 27px;
+  }
+  .section_card {
     background-color: #ffffff;
+  }
+  .section {
     border-radius: 8px;
     width: 1190px;
     display: flex;
@@ -36,7 +49,6 @@
       h3 {
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 30px;
       }
       .section {
         display: flex;
@@ -135,4 +147,68 @@
       right: 0;
     }
   }
+}
+.section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  height: 56px;
+}
+
+.resume_card {
+  background-color: #fff;
+  width: 377px;
+  height: 352px;
+  border-radius: 15px;
+  .preview {
+    height: 252px;
+    background-color: #d8dde2;
+    border-radius: 15px 15px 0 0;
+  }
+  .info {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: calc(352px - 252px);
+    padding: 28px 29px 0 29px;
+    i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+  h3 + p {
+    margin-top: 8px;
+  }
+  p {
+    color: #979797;
+  }
+}
+.resume_plus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  cursor: pointer;
+  span {
+    font-size: 20px;
+  }
+}
+.resume_plus-btn {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  img {
+    width: 45px;
+    padding-left: 4px;
+  }
+  // i {
+  //   font-size: 42px;
+  //   color: #979797;
+  // }
 }
