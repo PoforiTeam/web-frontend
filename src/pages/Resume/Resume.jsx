@@ -44,15 +44,10 @@ const Resume = () => {
             <ProfileForm />
             <IntroduceForm />
             <EducationForm />
-            <ResumeSection title="경력" />
             <CareerForm />
-            <ResumeSection title="프로젝트" />
             <ProjectForm />
-            <ResumeSection title="경험" />
             <ExperienceForm />
-            <ResumeSection title="스킬" />
             <SkillsForm />
-            <ResumeSection title="링크" />
             <LinksForm />
           </div>
         </div>

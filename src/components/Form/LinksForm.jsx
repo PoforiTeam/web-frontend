@@ -1,71 +1,74 @@
-import React from "react";
-import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { resumeApi } from "../../api/resumeApi";
+import ResumeSection from "../Resume/ResumeSection";
+import LinksFormItem from "./LinksFormItem";
 
 const LinksForm = () => {
   const { id } = useParams();
-  const formik = useFormik({
-    initialValues: {
-      resume_id: Number(id),
-      link_category: "",
-      link_detail: "",
-    },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-      createLink(values);
-    },
-  });
+  const [resList, setResList] = useState([]);
+  const [editIndices, setEditIndices] = useState([]);
+  const [isNewForm, setIsNewForm] = useState(false);
 
-  const createLink = async values => {
+  const getDetail = async () => {
     try {
-      const res = await resumeApi.createLink(values);
-      console.log(res);
+      const { data } = await resumeApi.link.detail(id);
+      console.log(data.response);
+      setResList(data.response.result);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const handleEdit = index => {
+    setEditIndices(prev => [...prev, index]);
+  };
+
+  const handleCancel = index => {
+    setEditIndices(prev => prev.filter(i => i !== index));
+  };
+
+  const handleNewForm = () => {
+    setIsNewForm(true);
+  };
+
+  const handleCancelNewForm = () => {
+    setIsNewForm(false);
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
   return (
-    <form className="resume-form" onSubmit={formik.handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="link_category">구분 *</label>
-        <select
-          id="link_category"
-          name="link_category"
-          onChange={formik.handleChange}
-          value={formik.values.link_category}
-          className="custom-select"
-        >
-          <option value="">선택하세요</option>
-          <option value="portfolio">포트폴리오</option>
-          <option value="blog">블로그</option>
-          <option value="facebook">페이스북</option>
-          <option value="notion">노션</option>
-          <option value="linkedin">링크드인</option>
-          <option value="github">Github</option>
-          <option value="other">직접 입력</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="link_detail">링크</label>
-        <input
-          id="link_detail"
-          name="link_detail"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.link_detail}
+    <>
+      <ResumeSection title="링크" onClick={handleNewForm} />
+
+      {isNewForm && (
+        <LinksFormItem
+          id={id}
+          res={{
+            resume_id: Number(id),
+            link_category: "",
+            link_detail: "",
+          }}
+          isEdit={true}
+          handleEdit={handleNewForm}
+          handleCancel={handleCancelNewForm}
+          getDetail={getDetail}
         />
-      </div>
-      <div className="button-group">
-        <button type="button" className="cancel-button">
-          취소
-        </button>
-        <button type="submit" className="submit-button">
-          저장
-        </button>
-      </div>
-    </form>
+      )}
+      {resList.map((res, index) => (
+        <LinksFormItem
+          key={res.link_id}
+          id={id}
+          res={res}
+          isEdit={editIndices.includes(index)}
+          handleEdit={() => handleEdit(index)}
+          handleCancel={() => handleCancel(index)}
+          getDetail={getDetail}
+        />
+      ))}
+    </>
   );
 };
 

@@ -1,138 +1,79 @@
-import React from "react";
-import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { resumeApi } from "../../api/resumeApi";
+import ResumeSection from "../Resume/ResumeSection";
+import ExperienceFormItem from "./ExperienceFormItem";
 
 const ExperienceForm = () => {
   const { id } = useParams();
-  const formik = useFormik({
-    initialValues: {
-      resume_id: Number(id),
-      experience_category: "",
-      experience_name: "",
-      experience_agency: "",
-      experience_is_period: "",
-      experience_start_date: "",
-      experience_end_date: "",
-      experience_detail: "",
-    },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-      createExperience({
-        ...values,
-        experience_start_date: String(values.experience_start_date),
-        experience_end_date: String(values.experience_end_date),
-      });
-    },
-  });
+  const [resList, setResList] = useState([]);
+  const [editIndices, setEditIndices] = useState([]);
+  const [isNewForm, setIsNewForm] = useState(false);
 
-  const createExperience = async values => {
+  const getDetail = async () => {
     try {
-      const res = await resumeApi.createExperience(values);
-      console.log(res);
+      const { data } = await resumeApi.experience.detail(id);
+      console.log(data.response);
+      setResList(data.response.result);
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
-    <form className="resume-form" onSubmit={formik.handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="experience_category">구분 *</label>
-        <select
-          id="experience_category"
-          name="experience_category"
-          onChange={formik.handleChange}
-          value={formik.values.experience_category}
-          className="custom-select"
-        >
-          <option value="">선택하세요</option>
-          <option value="인턴">인턴</option>
-          <option value="자원봉사">자원봉사</option>
-          <option value="동아리">동아리</option>
-          <option value="아르바이트">아르바이트</option>
-          <option value="수상">수상</option>
-          <option value="프로젝트">프로젝트</option>
-        </select>
-      </div>
-      <div className="form-group-flex">
-        <div className="form-group">
-          <label htmlFor="experience_name">활동명 *</label>
-          <input
-            id="experience_name"
-            name="experience_name"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.experience_name}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="experience_agency">기관/장소</label>
-          <input
-            id="experience_agency"
-            name="experience_agency"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.experience_agency}
-          />
-        </div>
-      </div>
-      <div className="form-group-flex">
-        <div className="form-group">
-          <label htmlFor="experience_is_period">기간 여부 *</label>
+  const handleEdit = index => {
+    setEditIndices(prev => [...prev, index]);
+  };
 
-          <select
-            id="experience_is_period"
-            name="experience_is_period"
-            onChange={formik.handleChange}
-            value={formik.values.experience_is_period}
-            className="custom-select"
-          >
-            <option value="">선택하세요</option>
-            <option value="기간 있음">기간 있음</option>
-            <option value="기간 없음">기간 없음</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="experience_start_date">시작년월</label>
-          <input
-            id="experience_start_date"
-            name="experience_start_date"
-            type="month"
-            onChange={formik.handleChange}
-            value={formik.values.experience_start_date}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="experience_end_date">종료년월</label>
-          <input
-            id="experience_end_date"
-            name="experience_end_date"
-            type="month"
-            onChange={formik.handleChange}
-            value={formik.values.experience_end_date}
-          />
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor="experience_detail">활동 설명</label>
-        <textarea
-          id="experience_detail"
-          name="experience_detail"
-          maxLength="500"
-          onChange={formik.handleChange}
-          value={formik.values.experience_detail}
+  const handleCancel = index => {
+    setEditIndices(prev => prev.filter(i => i !== index));
+  };
+
+  const handleNewForm = () => {
+    setIsNewForm(true);
+  };
+
+  const handleCancelNewForm = () => {
+    setIsNewForm(false);
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+  return (
+    <>
+      <ResumeSection title="경험" onClick={handleNewForm} />
+
+      {isNewForm && (
+        <ExperienceFormItem
+          id={id}
+          res={{
+            resume_id: Number(id),
+            experience_category: "",
+            experience_name: "",
+            experience_agency: "",
+            experience_is_period: "",
+            experience_start_date: "",
+            experience_end_date: "",
+            experience_detail: "",
+          }}
+          isEdit={true}
+          handleEdit={handleNewForm}
+          handleCancel={handleCancelNewForm}
+          getDetail={getDetail}
         />
-      </div>
-      <div className="button-group">
-        <button type="button" className="cancel-button">
-          취소
-        </button>
-        <button type="submit" className="submit-button">
-          저장
-        </button>
-      </div>
-    </form>
+      )}
+      {resList.map((res, index) => (
+        <ExperienceFormItem
+          key={res.experience_id}
+          id={id}
+          res={res}
+          isEdit={editIndices.includes(index)}
+          handleEdit={() => handleEdit(index)}
+          handleCancel={() => handleCancel(index)}
+          getDetail={getDetail}
+        />
+      ))}
+    </>
   );
 };
 

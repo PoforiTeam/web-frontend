@@ -56,7 +56,7 @@ const EducationFormItem = ({
 
   const updateEducation = async values => {
     try {
-      const res = await resumeApi.education.update(values.education_id, values);
+      const res = await resumeApi.education.update(values);
       console.log(res);
       getEducationDetail();
       handleCancel();
