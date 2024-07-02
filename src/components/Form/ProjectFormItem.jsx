@@ -27,8 +27,6 @@ const ProjectFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-
       const newInitialValues = {
         ...values,
         project_start_date: String(values.project_start_date),

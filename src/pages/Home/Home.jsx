@@ -115,7 +115,25 @@ const Home = () => {
           <div className="resume_list">
             {resumeList?.map(list => (
               <div className="resume_card" key={list?.resume_id}>
-                <div className="preview"></div>
+                <div className="preview">
+                  <div className="preview-box">
+                    <div>
+                      <div>
+                        <h1>{list?.resume_title}</h1>
+                        <div className="preview-list">
+                          <div></div>
+                          <p>{list?.email || "000@0000.000"}</p>
+                        </div>
+                        <div className="preview-list">
+                          <div></div>
+                          <p>{list?.phone || "010-0000-0000"}</p>
+                        </div>
+                      </div>
+                      <div className="preview-default"></div>
+                    </div>
+                    <span>{list?.introduce_text}</span>
+                  </div>
+                </div>
                 <div className="info">
                   <div>
                     <h3>{list?.resume_title}</h3>

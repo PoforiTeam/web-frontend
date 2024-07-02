@@ -21,7 +21,6 @@ const SkillsFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
       if (res.skill_id) {
         updateDetail(values);
       } else {

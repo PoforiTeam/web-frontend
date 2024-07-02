@@ -23,8 +23,6 @@ const ProfileForm = () => {
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-
       if (Object.keys(res).length > 0) {
         updateProfile(values);
       } else {
@@ -63,6 +61,8 @@ const ProfileForm = () => {
     try {
       const res = await resumeApi.profile.create(values);
       console.log(res);
+      setEdit(false);
+      getProfileDetail();
     } catch (err) {
       console.log(err);
     }
@@ -72,6 +72,7 @@ const ProfileForm = () => {
     try {
       const res = await resumeApi.profile.update(values);
       console.log(res);
+      setEdit(false);
       getProfileDetail();
     } catch (err) {
       console.log(err);

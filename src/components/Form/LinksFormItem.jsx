@@ -21,7 +21,6 @@ const LinksFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
       if (res.link_id) {
         updateDetail(values);
       } else {

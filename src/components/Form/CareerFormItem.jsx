@@ -26,8 +26,6 @@ const CareerFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-
       const newInitialValues = {
         ...values,
         career_start_date: String(values.career_start_date),

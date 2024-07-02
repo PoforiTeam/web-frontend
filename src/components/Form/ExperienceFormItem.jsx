@@ -26,8 +26,6 @@ const ExperienceFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-
       const newInitialValues = {
         ...values,
         experience_start_date: String(values.experience_start_date),

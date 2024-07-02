@@ -30,29 +30,31 @@ const Resume = () => {
     getResumeDetail();
   }, []);
   return (
-    <div className="resume">
+    <>
       <Sidebar />
-      <div className="resume-container">
-        <div className="resume-header">
-          <span>{res.title}</span>
-          {/* <div>
+      <div className="resume">
+        <div className="resume-container">
+          <div className="resume-header">
+            <span>{res.title}</span>
+            {/* <div>
             Web <i className="xi-angle-down-min" />
           </div> */}
-        </div>
-        <div className="resume-main">
-          <div className="resume-main-box">
-            <ProfileForm />
-            <IntroduceForm />
-            <EducationForm />
-            <CareerForm />
-            <ProjectForm />
-            <ExperienceForm />
-            <SkillsForm />
-            <LinksForm />
+          </div>
+          <div className="resume-main">
+            <div className="resume-main-box">
+              <ProfileForm />
+              <IntroduceForm />
+              <EducationForm />
+              <CareerForm />
+              <ProjectForm />
+              <ExperienceForm />
+              <SkillsForm />
+              <LinksForm />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

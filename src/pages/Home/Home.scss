@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: calc(60px + 4rem);
 
   .add-btn {
     font-size: 24px;
@@ -162,9 +163,57 @@
   height: 352px;
   border-radius: 15px;
   .preview {
+    position: relative;
     height: 252px;
     background-color: #d8dde2;
     border-radius: 15px 15px 0 0;
+  }
+  .preview-box {
+    position: absolute;
+    background-color: #fff;
+    margin: 40px 62px 0 62px;
+    width: 253px;
+    height: 212px;
+    border-radius: 15px 15px 0 0;
+    padding: 37px 26px;
+    > div {
+      display: flex;
+      justify-content: space-between;
+      > div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+    .preview-list {
+      display: flex;
+      gap: 5px;
+      > div {
+        background-color: #d9d9d9;
+        width: 8px;
+        height: 8px;
+      }
+      p {
+        font-size: 8px;
+        color: #000;
+      }
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    span {
+      display: inline-block;
+      height: 53px;
+      font-size: 8px;
+      margin-top: 51px;
+    }
+  }
+  .preview-default {
+    width: 49px;
+    height: 60px;
+    background-color: #d9d9d9;
   }
   .info {
     position: relative;

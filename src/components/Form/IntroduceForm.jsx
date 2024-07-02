@@ -19,8 +19,6 @@ const IntroduceForm = () => {
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-
       if (Object.keys(res).length > 0) {
         updateIntroduce(values);
       } else {

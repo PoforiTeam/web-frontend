@@ -20,7 +20,7 @@ const EducationFormItem = ({
 }) => {
   const initialValues = {
     resume_id: Number(id),
-    education_id: education.education_id || "",
+    education_id: Number(education.education_id) || "",
     education_category: education.education_category || "",
     education_name: education.education_name || "",
     major: education.major || "",
@@ -34,7 +34,6 @@ const EducationFormItem = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
       if (education.education_id) {
         updateEducation(values);
       } else {
