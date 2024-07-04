@@ -148,10 +148,10 @@ const Home = () => {
                       <div
                         onClick={() => navigate(`/resume/${list?.resume_id}`)}
                       >
-                        수정하기 <i className="xi-pen-o" />
+                        수정하기 <i className="xi-pen" />
                       </div>
                       <div onClick={() => copyResume(list?.resume_id)}>
-                        복제하기 <img src="../src/assets/img/resume_copy.png" />
+                        복제하기 <i className="xi-library-add" />
                       </div>
                       <div onClick={() => deleteResume(list?.resume_id)}>
                         삭제하기 <i className="xi-trash-o" />
@@ -163,7 +163,7 @@ const Home = () => {
             ))}
             <div className="resume_card resume_plus" onClick={createResume}>
               <div className="resume_plus-btn">
-                <img src="../src/assets/img/resume_plus.png" />
+                <i className="xi-pen" />
               </div>
               <span>새 이력서 작성하기</span>
             </div>

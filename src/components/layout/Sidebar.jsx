@@ -4,7 +4,7 @@ import { resumeApi } from "../../api/resumeApi";
 
 const Sidebar = () => {
   const { id } = useParams();
-  const [res, setRes] = useState({});
+  const [res, setRes] = useState([]);
   const [openSections, setOpenSections] = useState({
     profile: false,
     education: false,
@@ -15,11 +15,63 @@ const Sidebar = () => {
     link: false,
   });
 
+  const sectionsConfig = {
+    profile: {
+      title: "프로필",
+      subMenuType: "profile_title",
+    },
+    introduce: {
+      title: "자기소개",
+      subMenuType: "introduce_text",
+    },
+    education: {
+      title: "교육",
+      subMenuType: "education_name",
+    },
+    career: {
+      title: "경력",
+      subMenuType: "company_name",
+    },
+    project: {
+      title: "프로젝트",
+      subMenuType: "project_name",
+    },
+    experience: {
+      title: "경험",
+      subMenuType: "experience_name",
+    },
+    skill: {
+      title: "스킬",
+      subMenuType: "skill_category",
+    },
+    link: {
+      title: "링크",
+      subMenuType: "link_category",
+    },
+  };
+
   const getResumeDetail = async () => {
     try {
       const { data } = await resumeApi.detail(id);
-      console.log(data);
-      setRes(data.response);
+      console.log(data.response.result);
+      let categoryList = data.response.result;
+      let resList = {
+        title: data.response.title,
+        list: categoryList.map(list => {
+          return {
+            category: list.category,
+            title: sectionsConfig[list.category].title,
+            sub: list.itme_list?.map(item => {
+              return {
+                title: item[sectionsConfig[list.category].subMenuType],
+              };
+            }),
+          };
+        }),
+      };
+
+      console.log(resList);
+      setRes(resList);
     } catch (err) {
       console.log(err);
     }
@@ -54,151 +106,30 @@ const Sidebar = () => {
           <h3>메뉴</h3>
           <h4>{res?.title}</h4>
           <ul className="resume-menu">
-            <li>
-              <div onClick={() => toggleSection("profile")}>
-                <i
-                  className={
-                    openSections.profile
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                프로필
-              </div>
-              {openSections.profile && (
-                <ul>
-                  <li>{res.profile?.profile_title}</li>
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("education")}>
-                <i
-                  className={
-                    openSections.education
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                교육
-              </div>
-              {openSections.education && (
-                <ul>
-                  {res.education?.map(edu => (
-                    <li key={edu.education_id}>
-                      {edu.education_category}: {edu.education_name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("career")}>
-                <i
-                  className={
-                    openSections.career
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                경력
-              </div>
-              {openSections.career && (
-                <ul>
-                  {res.career?.map(car => (
-                    <li key={car.career_id}>
-                      {car.company_name}: {car.job_title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("project")}>
-                <i
-                  className={
-                    openSections.project
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                프로젝트
-              </div>
-              {openSections.project && (
-                <ul>
-                  {res.project?.map(proj => (
-                    <li key={proj.project_id}>{proj.project_name}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("experience")}>
-                <i
-                  className={
-                    openSections.experience
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                경험
-              </div>
-              {openSections.experience && (
-                <ul>
-                  {res.experience?.map(exp => (
-                    <li key={exp.experience_id}>{exp.experience_name}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("skill")}>
-                <i
-                  className={
-                    openSections.skill
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                스킬
-              </div>
-              {openSections.skill && (
-                <ul>
-                  {res.skill?.map(skill => (
-                    <li key={skill.skill_id}>
-                      {skill.skill_category}: {skill.skill_detail}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-            <li>
-              <div onClick={() => toggleSection("link")}>
-                <i
-                  className={
-                    openSections.link
-                      ? "xi-angle-down-min"
-                      : "xi-angle-right-min"
-                  }
-                />{" "}
-                링크
-              </div>
-              {openSections.link && (
-                <ul>
-                  {res.link?.map(link => (
-                    <li key={link.link_id}>
-                      <a
-                        href={link.link_detail}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link.link_category}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
+            {res?.list?.map(menu => (
+              <li>
+                <div onClick={() => toggleSection(menu.category)}>
+                  <i
+                    className={
+                      openSections[menu.category]
+                        ? "xi-angle-down-min"
+                        : "xi-angle-right-min"
+                    }
+                  />
+                  {menu.title}
+                </div>
+                {openSections[menu.category] && (
+                  <ul>
+                    {menu?.sub?.map(sub_menu => (
+                      <li>
+                        <i className="xi-comment" />
+                        {sub_menu?.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       </nav>
