@@ -116,14 +116,14 @@ const Sidebar = () => {
                         : "xi-angle-right-min"
                     }
                   />
-                  {menu.title}
+                  <p>{menu.title}</p>
                 </div>
                 {openSections[menu.category] && (
                   <ul>
                     {menu?.sub?.map(sub_menu => (
-                      <li>
+                      <li className="resume-child">
                         <i className="xi-comment" />
-                        {sub_menu?.title}
+                        <p>{sub_menu?.title}</p>
                       </li>
                     ))}
                   </ul>

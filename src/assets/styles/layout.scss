@@ -63,10 +63,25 @@ body {
 
 .menu-section {
   padding: 10px 0;
+  i {
+    font-size: 20px;
+    color: #bfbfbf;
+  }
   div {
-    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
     height: 36px;
     line-height: 36px;
+    &:hover {
+      background-color: rgba(217, 217, 217, 0.21);
+    }
+  }
+  p {
+    color: #000;
+    height: 24px;
+    line-height: 24px;
   }
 }
 
@@ -83,24 +98,13 @@ body {
   list-style-type: none;
   padding: 0;
   font-size: 14px;
-  ul {
-    li {
-      height: 36px;
-      line-height: 36px;
-    }
-  }
 }
 
-.resume-menu li {
+.resume-menu > li {
   display: flex;
   flex-direction: column;
-  padding: 5px 0;
   color: #979797;
   cursor: pointer;
-}
-
-.resume-menu li:hover {
-  background-color: rgba(217, 217, 217, 0.21);
 }
 
 .main-content {
@@ -170,5 +174,20 @@ body {
   &.disabled {
     pointer-events: none;
     // color: $gray-500;
+  }
+}
+.resume-child {
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  p {
+    width: 162px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  &:hover {
+    background-color: rgba(217, 217, 217, 0.21);
   }
 }
