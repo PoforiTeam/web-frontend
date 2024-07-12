@@ -25,7 +25,7 @@ const LoginModal = ({ onClose }) => {
     return <div>Error: {loginMutation.error.message}</div>; // 로그인 에러 발생 시
   }
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} maxWidth="421px" maxHeight="424px">
       <div className="login-modal">
         <h2 className="logo">POFORI</h2>
         <GoogleLoginBtn handleLogin={handleLogin} />

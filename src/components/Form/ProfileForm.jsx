@@ -168,16 +168,21 @@ const ProfileForm = () => {
           <div className="tip">
             <span>🙆‍♀️</span>
             <p>
-              나에 대해 잘 설명해주는 한 문장의 제목은 강한 인상을 줄 수 있다.
+              나에 대해 잘 설명해주는 한 문장의 타이틀은 강한 인상을 줄 수
+              있어요.
               <br />
-              Tip: 입에 잘 달라붙는 문장일수록 좋다.
+              <ul>
+                <li>입에 잘 달라붙는 문장일수록 좋아요!</li>
+              </ul>
             </p>
           </div>
 
           <div className="form-group-flex">
             <div style={{ minWidth: "630px" }}>
               <div className="form-group">
-                <label htmlFor="profile_title">타이틀 *</label>
+                <label htmlFor="profile_title">
+                  타이틀 <em>*</em>
+                </label>
                 <input
                   id="profile_title"
                   name="profile_title"
@@ -188,7 +193,9 @@ const ProfileForm = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="job_title">직무/직업 *</label>
+                <label htmlFor="job_title">
+                  직무/직업 <em>*</em>
+                </label>
                 <input
                   id="job_title"
                   name="job_title"

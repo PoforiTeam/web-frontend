@@ -6,11 +6,16 @@ import Resume from "./pages/Resume/Resume";
 import Settings from "./pages/Settings/Settings";
 import KakaoRedirection from "./utils/socialLogin/KakaoRedirection";
 
-const router = openLoginModal =>
+const router = (openLoginModal, openAccountModal) =>
   createBrowserRouter([
     {
       path: "/",
-      element: <Layout openLoginModal={openLoginModal} />,
+      element: (
+        <Layout
+          openLoginModal={openLoginModal}
+          openAccountModal={openAccountModal}
+        />
+      ),
       children: [
         { path: "", element: <Home /> },
         { path: "oauth/kakao", element: <KakaoRedirection /> },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { resumeApi } from "../../api/resumeApi";
@@ -9,6 +9,7 @@ const IntroduceForm = () => {
   const { id } = useParams();
   const [isEdit, setEdit] = useState(false);
   const [res, setRes] = useState({});
+  const textareaRef = useRef(null);
 
   const [initialValues, setInitialValues] = useState({
     resume_id: Number(id),
@@ -26,6 +27,14 @@ const IntroduceForm = () => {
       }
     },
   });
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
   const getIntroduceDetail = async () => {
     try {
       const { data } = await resumeApi.introduce.detail(id);
@@ -73,32 +82,52 @@ const IntroduceForm = () => {
       console.log(err);
     }
   };
+
   const handleCancel = () => {
     formik.resetForm({ values: initialValues });
     setEdit(false);
   };
+
   useEffect(() => {
     getIntroduceDetail();
   }, []);
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [formik.values.introduce_text]);
+
   return (
     <>
       {isEdit ? (
         <form className="resume-form" onSubmit={formik.handleSubmit}>
           <h2>자기소개</h2>
           <div className="tip">
+            <span>🙆‍♀️</span>
             <p>
-              🙆‍♀️&emsp;1) 어떤 경력/경험을 가졌고 2) 관심사(일과 무관한 취미X,
-              일적인 관심사)가 무엇인지 위주의 짧은 글
+              자기소개는 내가 어떤 경력/경험을 가졌고 관심사가 무엇인지 위주의
+              짧은 글이에요.
+              <ul>
+                <li>
+                  면접관이 이력서를 더 읽고 싶도록 장점을 강조해서 작성해보세요.
+                </li>
+                <li>
+                  본인의 강점을 나타내는 키워드와 함께 이를 뒷받침할 수 있는
+                  내용을 적으면 더 설득력이 있습니다.
+                </li>
+                <li>경력인 경우에는, 업무 성과를 강조하는 것을 추천합니다.</li>
+              </ul>
             </p>
           </div>
           <div className="form-group">
-            <label htmlFor="introduce_text">자기소개 내용</label>
+            <label htmlFor="introduce_text">
+              자기소개 내용 <em>*</em>
+            </label>
             <textarea
               id="introduce_text"
               name="introduce_text"
-              maxLength="500"
               onChange={formik.handleChange}
               value={formik.values.introduce_text}
+              ref={textareaRef}
             />
           </div>
           <div className="button-group">

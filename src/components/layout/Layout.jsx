@@ -4,9 +4,9 @@ import Sidebar from "./Sidebar";
 import MainContent from "./MainContent";
 import "../../assets/styles/layout.scss";
 
-const Layout = ({ children, openLoginModal }) => (
+const Layout = ({ children, openLoginModal, openAccountModal }) => (
   <div className="layout">
-    <Header onLoginClick={openLoginModal} />
+    <Header onLoginClick={openLoginModal} onAccountClick={openAccountModal} />
     <div className="content">
       {/* <Sidebar /> */}
       <MainContent>{children}</MainContent>

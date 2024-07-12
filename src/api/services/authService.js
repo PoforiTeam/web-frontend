@@ -26,5 +26,6 @@ export const refreshAccessToken = async () => {
 
 export const logout = async () => {
   localStorage.removeItem("access_token");
+  localStorage.removeItem("auth");
   Cookies.remove("refresh_token");
 };

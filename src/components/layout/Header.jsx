@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLogout } from "../../api/hooks/useAuth";
 import { useAuthContext } from "../../context/AuthContext";
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onLoginClick, onAccountClick }) => {
   const { auth } = useAuthContext();
   const { mutate: logout } = useLogout();
   const [isSubDropdown, setSubDropdown] = useState(false);
@@ -33,12 +33,16 @@ const Header = ({ onLoginClick }) => {
         <>
           <h1 onClick={() => setSubDropdown(!isSubDropdown)}>
             <i className="xi-user-o" />
-            {auth.name}
+            {auth.user_name}
             {/* <button onClick={handleLogoutClick}>로그아웃</button> */}
           </h1>
           {isSubDropdown && (
             <div className="sub-dropdown" ref={dropdownRef}>
-              <div onClick={() => navigate(`/resume/${list?.resume_id}`)}>
+              <div
+                onClick={() => {
+                  onAccountClick(), setSubDropdown(false);
+                }}
+              >
                 계정 관리
               </div>
               <div onClick={handleLogoutClick}>로그아웃</div>

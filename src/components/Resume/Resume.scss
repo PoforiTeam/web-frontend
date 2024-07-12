@@ -10,6 +10,11 @@
     font-weight: bold;
     margin-bottom: 26px;
   }
+  label {
+    em {
+      color: #ff5656;
+    }
+  }
   .tip {
     display: flex;
     gap: 15px;
@@ -27,11 +32,11 @@
       margin: 0;
       line-height: 1.6;
       li {
-        margin-left: 20px;
+        margin-left: 30px;
         list-style: outside;
         margin-bottom: 3px;
         &::marker {
-          font-size: 14px;
+          font-size: 12px;
         }
       }
     }
@@ -56,6 +61,12 @@
   gap: 30px;
 }
 
+textarea#introduce_text {
+  resize: none; /* Disable manual resizing */
+  overflow: hidden; /* Hide overflow */
+  min-height: 96px; /* Set minimum height */
+  height: 96px; /* Set default height */
+}
 .form-group label {
   display: block;
   margin-bottom: 5px;
