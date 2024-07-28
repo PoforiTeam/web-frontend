@@ -7,9 +7,6 @@ const EducationFormItem = ({
   id,
   index,
   onDragOver,
-  onDragStart,
-  onDragEnd,
-  onDrop,
   list,
   setList,
   education,
@@ -86,9 +83,6 @@ const EducationFormItem = ({
         <ResumeBox
           index={index}
           onDragOver={onDragOver}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          onDrop={onDrop}
           handleEdit={handleEdit}
           handleDelete={deleteEducation}
         >

@@ -3,9 +3,6 @@ import { useEffect, useState } from "react";
 const ResumeBox = ({
   index,
   onDragOver,
-  onDragStart,
-  onDragEnd,
-  onDrop,
   handleEdit,
   handleDelete,
   children,
@@ -13,16 +10,8 @@ const ResumeBox = ({
   return (
     <div className="resume-box" key={index}>
       {onDragOver && (
-        <div
-          className="resume-box__drag"
-          data-position={index}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          draggable
-        >
-          <i className="xi-drag-vertical" />
+        <div className="resume-box__drag">
+          <img src="../src/assets/img/draggabledots.png" />
         </div>
       )}
       <div className="resume-box__icon">
