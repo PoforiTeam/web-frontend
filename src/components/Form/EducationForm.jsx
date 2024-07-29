@@ -4,7 +4,7 @@ import { resumeApi } from "../../api/resumeApi";
 import { SortableItem } from "../DnD/SortableItem";
 import ResumeSection from "../Resume/ResumeSection";
 import EducationFormItem from "./EducationFormItem";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
 import {
   arrayMove,
   verticalListSortingStrategy,
@@ -17,6 +17,7 @@ const EducationForm = () => {
   const [order, setOrder] = useState([]);
   const [editIndices, setEditIndices] = useState([]);
   const [isNewForm, setIsNewForm] = useState(false);
+  // const [activeId, setActiveId] = useState(null);
 
   const getEducationDetail = async () => {
     try {
@@ -54,6 +55,9 @@ const EducationForm = () => {
     console.log(order);
   }, [order]);
 
+  // const handleDragStart = event => {
+  //   setActiveId(event.active.id);
+  // };
   const handleDragEnd = event => {
     const { active, over } = event;
     if (active.id !== over.id) {
@@ -83,7 +87,11 @@ const EducationForm = () => {
   return (
     <>
       <ResumeSection title="교육" onClick={handleNewForm} />
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        // onDragStart={handleDragStart}
+      >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           {isNewForm && (
             <EducationFormItem
@@ -109,27 +117,32 @@ const EducationForm = () => {
               edu => edu.education_sub_order === subOrder
             );
             return (
-              <SortableItem
-                key={subOrder}
-                id={subOrder}
-                child={
-                  education && (
-                    <EducationFormItem
-                      key={education.education_id}
-                      id={id}
-                      index={index}
-                      onDragOver
-                      education={education}
-                      isEdit={editIndices.includes(index)}
-                      handleEdit={() => handleEdit(index)}
-                      handleCancel={() => handleCancel(index)}
-                      getEducationDetail={getEducationDetail}
-                    />
-                  )
-                }
-              />
+              <SortableItem key={subOrder} id={subOrder} type="form">
+                {education && (
+                  <EducationFormItem
+                    key={education.education_id}
+                    id={id}
+                    index={index}
+                    education={education}
+                    isEdit={editIndices.includes(index)}
+                    handleEdit={() => handleEdit(index)}
+                    handleCancel={() => handleCancel(index)}
+                    getEducationDetail={getEducationDetail}
+                  />
+                )}
+              </SortableItem>
             );
           })}
+          {/* <DragOverlay>
+            {activeId ? (
+              <div
+                style={{
+                  zIndex: "100",
+                  opacity: 0.5,
+                }}
+              ></div>
+            ) : null}
+          </DragOverlay> */}
         </SortableContext>
       </DndContext>
       {/* <button onClick={handleSave}>Save Changes</button> */}

@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { resumeApi } from "../../api/resumeApi";
+import { SortableItem } from "../DnD/SortableItem"; // Import the SortableItem component
 
 const Sidebar = () => {
   const { id } = useParams();
   const [res, setRes] = useState([]);
+  const [orders, setOrders] = useState({});
+  const [topOrder, setTopOrder] = useState([]);
   const [openSections, setOpenSections] = useState({
     profile: false,
+    introduce: false,
     education: false,
     career: false,
     project: false,
@@ -53,35 +63,72 @@ const Sidebar = () => {
   const getResumeDetail = async () => {
     try {
       const { data } = await resumeApi.detail(id);
-      console.log(data.response.result);
       let categoryList = data.response.result;
+
       let resList = {
         title: data.response.title,
-        list: categoryList.map(list => {
-          return {
-            category: list.category,
-            title: sectionsConfig[list.category].title,
-            sub: list.itme_list?.map(item => {
-              return {
-                title: item[sectionsConfig[list.category].subMenuType],
-              };
-            }),
-          };
-        }),
+        list: categoryList.map(list => ({
+          category: list.category,
+          title: sectionsConfig[list.category].title,
+          sub: list.item_list?.map(item => ({
+            id: item[`${list.category}_id`],
+            title: item[sectionsConfig[list.category].subMenuType],
+          })),
+        })),
       };
 
-      console.log(resList);
+      let initialOrders = {};
+      categoryList.forEach(list => {
+        initialOrders[list.category] = list.item_list.map(
+          item => item[`${list.category}_id`]
+        );
+      });
+
       setRes(resList);
+      setOrders(initialOrders);
+      setTopOrder(categoryList.map(list => list.category));
     } catch (err) {
       console.log(err);
     }
   };
 
   const toggleSection = section => {
+    console.log(section);
     setOpenSections(prevSections => ({
       ...prevSections,
       [section]: !prevSections[section],
     }));
+  };
+
+  const handleNestedDragEnd = (event, category) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setOrders(prevOrders => {
+        const activeIndex = prevOrders[category].indexOf(active.id);
+        const overIndex = prevOrders[category].indexOf(over.id);
+        const newOrder = arrayMove(
+          prevOrders[category],
+          activeIndex,
+          overIndex
+        );
+
+        return {
+          ...prevOrders,
+          [category]: newOrder,
+        };
+      });
+    }
+  };
+
+  const handleTopLevelDragEnd = event => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setTopOrder(prevOrder => {
+        const activeIndex = prevOrder.indexOf(active.id);
+        const overIndex = prevOrder.indexOf(over.id);
+        return arrayMove(prevOrder, activeIndex, overIndex);
+      });
+    }
   };
 
   useEffect(() => {
@@ -105,32 +152,77 @@ const Sidebar = () => {
         <div className="menu-section">
           <h3>메뉴</h3>
           <h4>{res?.title}</h4>
-          <ul className="resume-menu">
-            {res?.list?.map(menu => (
-              <li>
-                <div onClick={() => toggleSection(menu.category)}>
-                  <i
-                    className={
-                      openSections[menu.category]
-                        ? "xi-angle-down-min"
-                        : "xi-angle-right-min"
-                    }
-                  />
-                  <p>{menu.title}</p>
-                </div>
-                {openSections[menu.category] && (
-                  <ul>
-                    {menu?.sub?.map(sub_menu => (
-                      <li className="resume-child">
-                        <i className="xi-comment" />
-                        <p>{sub_menu?.title}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleTopLevelDragEnd}
+          >
+            <SortableContext
+              items={topOrder}
+              strategy={verticalListSortingStrategy}
+            >
+              <ul className="resume-menu">
+                {topOrder.map(category => {
+                  const menu = res?.list?.find(
+                    item => item.category === category
+                  );
+                  return (
+                    <>
+                      <SortableItem
+                        key={menu.category}
+                        id={menu.category}
+                        type="sidebar"
+                      >
+                        {
+                          <li>
+                            <div onClick={() => toggleSection(menu.category)}>
+                              <i
+                                className={
+                                  openSections[menu.category]
+                                    ? "xi-angle-down-min"
+                                    : "xi-angle-right-min"
+                                }
+                              />
+                              <p>{menu.title}</p>
+                            </div>
+                          </li>
+                        }
+                      </SortableItem>
+
+                      {openSections[menu.category] && (
+                        <DndContext
+                          collisionDetection={closestCenter}
+                          onDragEnd={event =>
+                            handleNestedDragEnd(event, menu.category)
+                          }
+                        >
+                          <SortableContext
+                            items={orders[menu.category]}
+                            strategy={verticalListSortingStrategy}
+                          >
+                            <ul>
+                              {orders[menu.category]?.map(id => {
+                                const subMenuItem = menu.sub.find(
+                                  item => item.id === id
+                                );
+                                return (
+                                  <SortableItem key={id} id={id} type="sidebar">
+                                    <li className="resume-child">
+                                      <i className="xi-comment" />
+                                      <p>{subMenuItem?.title}</p>
+                                    </li>
+                                  </SortableItem>
+                                );
+                              })}
+                            </ul>
+                          </SortableContext>
+                        </DndContext>
+                      )}
+                    </>
+                  );
+                })}
+              </ul>
+            </SortableContext>
+          </DndContext>
         </div>
       </nav>
     </aside>

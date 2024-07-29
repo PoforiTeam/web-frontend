@@ -1,19 +1,8 @@
 import { useEffect, useState } from "react";
 
-const ResumeBox = ({
-  index,
-  onDragOver,
-  handleEdit,
-  handleDelete,
-  children,
-}) => {
+const ResumeBox = ({ index, handleEdit, handleDelete, children }) => {
   return (
     <div className="resume-box" key={index}>
-      {onDragOver && (
-        <div className="resume-box__drag">
-          <img src="../src/assets/img/draggabledots.png" />
-        </div>
-      )}
       <div className="resume-box__icon">
         <div onClick={handleEdit}>
           <i className="xi-border-color" />

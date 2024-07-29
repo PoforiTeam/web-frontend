@@ -6,7 +6,6 @@ import ResumeBox from "../Resume/ResumeBox";
 const EducationFormItem = ({
   id,
   index,
-  onDragOver,
   list,
   setList,
   education,
@@ -82,7 +81,6 @@ const EducationFormItem = ({
       {!isEdit && (
         <ResumeBox
           index={index}
-          onDragOver={onDragOver}
           handleEdit={handleEdit}
           handleDelete={deleteEducation}
         >
