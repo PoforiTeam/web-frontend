@@ -19,22 +19,29 @@ export function SortableItem(props) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="dnd-box">
-      {props.type === "form" && (
-        <div className="dnd-box__drag drag-form" {...attributes} {...listeners}>
-          <img src="../src/assets/img/draggabledots.png" />
-        </div>
-      )}
-      {props.type === "sidebar" && (
-        <div
-          className="dnd-box__drag drag-sidebar"
-          {...attributes}
-          {...listeners}
-        >
-          <i className="xi-drag-handle" />
-        </div>
-      )}
-      {props.children}
+    <div ref={setNodeRef} style={style}>
+      <div className="dnd-box">
+        {props.type === "form" && (
+          <div
+            className="dnd-box__drag drag-form"
+            {...attributes}
+            {...listeners}
+          >
+            <img src="../src/assets/img/draggabledots.png" />
+          </div>
+        )}
+        {props.type === "sidebar" && (
+          <div
+            className="dnd-box__drag drag-sidebar"
+            {...attributes}
+            {...listeners}
+          >
+            <i className="xi-drag-handle" />
+          </div>
+        )}
+        {props.children}
+      </div>
+      {props.plus}
     </div>
   );
 }

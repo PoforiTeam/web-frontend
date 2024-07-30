@@ -8,6 +8,10 @@ export const resumeApi = {
   list: params => api.get("/resume/list", params),
   uploadImage: form => api.formPost("/resume/image", form),
   detail: id => api.get(`/resume/?resume_id=${id}`),
+  order: {
+    category: params => api.put("/resume/order", params),
+    detail: params => api.put("/resume/order/detail", params),
+  },
   profile: {
     detail: id => api.get(`/resume/profile?resume_id=${id}`),
     create: params => api.post("/resume/profile", params),

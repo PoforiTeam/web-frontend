@@ -171,52 +171,55 @@ const Sidebar = () => {
                         key={menu.category}
                         id={menu.category}
                         type="sidebar"
-                      >
-                        {
-                          <li>
-                            <div onClick={() => toggleSection(menu.category)}>
-                              <i
-                                className={
-                                  openSections[menu.category]
-                                    ? "xi-angle-down-min"
-                                    : "xi-angle-right-min"
-                                }
-                              />
-                              <p>{menu.title}</p>
-                            </div>
-                          </li>
+                        plus={
+                          openSections[menu.category] && (
+                            <DndContext
+                              collisionDetection={closestCenter}
+                              onDragEnd={event =>
+                                handleNestedDragEnd(event, menu.category)
+                              }
+                            >
+                              <SortableContext
+                                items={orders[menu.category]}
+                                strategy={verticalListSortingStrategy}
+                              >
+                                <ul>
+                                  {orders[menu.category]?.map(id => {
+                                    const subMenuItem = menu.sub.find(
+                                      item => item.id === id
+                                    );
+                                    return (
+                                      <SortableItem
+                                        key={id}
+                                        id={id}
+                                        type="sidebar"
+                                      >
+                                        <li className="resume-child">
+                                          <i className="xi-comment" />
+                                          <p>{subMenuItem?.title}</p>
+                                        </li>
+                                      </SortableItem>
+                                    );
+                                  })}
+                                </ul>
+                              </SortableContext>
+                            </DndContext>
+                          )
                         }
+                      >
+                        <li>
+                          <div onClick={() => toggleSection(menu.category)}>
+                            <i
+                              className={
+                                openSections[menu.category]
+                                  ? "xi-angle-down-min"
+                                  : "xi-angle-right-min"
+                              }
+                            />
+                            <p>{menu.title}</p>
+                          </div>
+                        </li>
                       </SortableItem>
-
-                      {openSections[menu.category] && (
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={event =>
-                            handleNestedDragEnd(event, menu.category)
-                          }
-                        >
-                          <SortableContext
-                            items={orders[menu.category]}
-                            strategy={verticalListSortingStrategy}
-                          >
-                            <ul>
-                              {orders[menu.category]?.map(id => {
-                                const subMenuItem = menu.sub.find(
-                                  item => item.id === id
-                                );
-                                return (
-                                  <SortableItem key={id} id={id} type="sidebar">
-                                    <li className="resume-child">
-                                      <i className="xi-comment" />
-                                      <p>{subMenuItem?.title}</p>
-                                    </li>
-                                  </SortableItem>
-                                );
-                              })}
-                            </ul>
-                          </SortableContext>
-                        </DndContext>
-                      )}
                     </>
                   );
                 })}
