@@ -1,6 +1,23 @@
 # 포포리(Pofori) : 이력서 관리 플랫폼 Front-End
 
-- 공유할 수 있는 “이력서 템플릿 web” 과 이를 수정하고 관리하는 “관리자 web”을 개발
+## 프로젝트 소개
+
+공유할 수 있는 “이력서 템플릿 web” 과 이를 수정하고 관리하는 “관리자 web”을 개발
+![main](https://github.com/user-attachments/assets/fe1e99f0-f4bc-4215-a9f1-13ec05de31ea)
+
+## 프로젝트 상세 결과
+
+### 1. 로그인 후 이력서 리스트
+
+![이력서 리스트](https://github.com/user-attachments/assets/0245695a-6947-4120-80db-2bbe27eabeda)
+
+### 2. 새 이력서 작성 페이지
+
+![새 이력서 작성](https://github.com/user-attachments/assets/c43cc9fb-22a7-4d85-bcd6-2a864ef7da76)
+
+### 3. 이력서 수정 페이지
+
+![이력서 상세](https://github.com/user-attachments/assets/939e8eca-3024-44bb-8890-3452dff35147)
 
 # Contributers
 
