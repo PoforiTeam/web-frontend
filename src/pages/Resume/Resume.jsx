@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 const Resume = () => {
   const { id } = useParams();
   const [res, setRes] = useState({});
+  const [isUpdate, setUpdate] = useState(false);
   const getResumeDetail = async () => {
     try {
       const { data } = await resumeApi.detail(id);
@@ -27,11 +28,15 @@ const Resume = () => {
   };
 
   useEffect(() => {
+    console.log(isUpdate);
+    setUpdate(false);
+  }, [isUpdate]);
+  useEffect(() => {
     getResumeDetail();
   }, []);
   return (
     <>
-      <Sidebar />
+      <Sidebar isUpdate={isUpdate} setUpdate={setUpdate} />
       <div className="resume">
         <div className="resume-container">
           <div className="resume-header">
@@ -44,7 +49,7 @@ const Resume = () => {
             <div className="resume-main-box">
               <ProfileForm />
               <IntroduceForm />
-              <EducationForm />
+              <EducationForm isUpdate={isUpdate} setUpdate={setUpdate} />
               <CareerForm />
               <ProjectForm />
               <ExperienceForm />

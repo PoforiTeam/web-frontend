@@ -11,7 +11,7 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 
-const EducationForm = () => {
+const EducationForm = ({ isUpdate, setUpdate }) => {
   const { id } = useParams();
   const [educations, setEducations] = useState([]);
   const [order, setOrder] = useState([]);
@@ -91,6 +91,7 @@ const EducationForm = () => {
   const updateDetailOrder = async list => {
     try {
       await resumeApi.order.detail(list);
+      setUpdate(true);
     } catch (e) {
       console.log(e);
     }
@@ -99,6 +100,10 @@ const EducationForm = () => {
   useEffect(() => {
     getEducationDetail();
   }, [id]);
+
+  useEffect(() => {
+    isUpdate && getEducationDetail();
+  }, [isUpdate]);
 
   return (
     <>

@@ -9,7 +9,7 @@ import {
 import { resumeApi } from "../../api/resumeApi";
 import { SortableItem } from "../DnD/SortableItem"; // Import the SortableItem component
 
-const Sidebar = () => {
+const Sidebar = ({ isUpdate, setUpdate }) => {
   const { id } = useParams();
   const [res, setRes] = useState([]);
   const [orders, setOrders] = useState({});
@@ -85,9 +85,12 @@ const Sidebar = () => {
 
       let initialOrders = {};
       categoryList.forEach(list => {
-        initialOrders[list.category] = list.item_list.map(
-          item => item[`${list.category}_id`]
-        );
+        initialOrders[list.category] = list.item_list
+          .sort(
+            (a, b) =>
+              a[`${list.category}_sub_order`] - b[`${list.category}_sub_order`]
+          )
+          .map(item => item[`${list.category}_id`]);
       });
       console.log(resList, initialOrders);
       setRes(resList);
@@ -125,7 +128,15 @@ const Sidebar = () => {
           activeIndex,
           overIndex
         );
-
+        let detailOrderList = {
+          resume_category: category,
+          detail_orders: newOrder.map((key, index) => ({
+            item_id: key,
+            item_order: index + 1,
+          })),
+        };
+        console.log("newOrder", detailOrderList);
+        updateDetailOrder(detailOrderList);
         return {
           ...prevOrders,
           [category]: newOrder,
@@ -158,17 +169,28 @@ const Sidebar = () => {
         topOrderList[`${key}_order`] = index + 2;
       });
       await resumeApi.order.category(topOrderList);
+      setUpdate(true);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const updateDetailOrder = async list => {
+    try {
+      await resumeApi.order.detail(list);
+      setUpdate(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getResumeDetail();
   }, [id]);
 
   useEffect(() => {
-    console.log(topOrder);
-  }, [topOrder]);
+    isUpdate && getResumeDetail();
+  }, [isUpdate]);
 
   return (
     <aside className="sidebar">
