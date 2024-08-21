@@ -89,9 +89,6 @@ body {
     padding: 6px 10px;
     height: 36px;
     line-height: 36px;
-    &:hover {
-      background-color: rgba(217, 217, 217, 0.21);
-    }
   }
   p {
     color: #000;
@@ -220,4 +217,35 @@ body {
   &:hover {
     background-color: rgba(217, 217, 217, 0.21);
   }
+}
+
+.resume-menu-container {
+  width: 232px;
+  height: calc(100vh - 260px);
+  overflow-y: overlay;
+  overflow-x: hidden;
+}
+
+/* 스크롤바의 폭 너비 */
+
+.resume-menu-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.resume-menu-container::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 10px;
+  border: 4px solid transparent;
+  box-shadow: inset 6px 6px 0 rgba(34, 34, 34, 0.15);
+}
+
+.resume-menu-container::-webkit-scrollbar-thumb:hover {
+  border: 4px solid transparent;
+  box-shadow: inset 6px 6px 0 rgba(34, 34, 34, 0.3);
+}
+
+.resume-menu-container::-webkit-scrollbar-track {
+  box-shadow: none;
+  background-color: transparent;
 }

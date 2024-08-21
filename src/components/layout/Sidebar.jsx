@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
@@ -14,6 +14,8 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
   const [res, setRes] = useState([]);
   const [orders, setOrders] = useState({});
   const [topOrder, setTopOrder] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+  const [activeSubId, setActiveSubId] = useState(null);
   const [openSections, setOpenSections] = useState({
     profile: false,
     education: false,
@@ -142,6 +144,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
           [category]: newOrder,
         };
       });
+      setActiveSubId(null);
     }
   };
 
@@ -155,6 +158,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
         updateTopOrder(newOrder);
         return newOrder;
       });
+      setActiveId(null);
     }
   };
 
@@ -209,98 +213,120 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
         <div className="menu-section">
           <h3>메뉴</h3>
           <h4>{res?.title}</h4>
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleTopLevelDragEnd}
-          >
-            <SortableContext
-              items={topOrder}
-              strategy={verticalListSortingStrategy}
+
+          <div className="resume-menu-container">
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragStart={({ active }) => {
+                setActiveId(active.id);
+              }}
+              onDragEnd={handleTopLevelDragEnd}
             >
-              <ul className="resume-menu">
-                <li>
-                  <div onClick={() => toggleSection("profile")}>
-                    <i
-                      className={
-                        openSections["profile"]
-                          ? "xi-angle-down-min"
-                          : "xi-angle-right-min"
-                      }
-                    />
-                    <p>프로필</p>
-                  </div>
-                  {openSections["profile"] && (
-                    <ul>
-                      <li className="resume-child">
-                        <i className={sectionsConfig["profile"].icon} />
-                        <p>자기소개</p>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                {topOrder.map(category => {
-                  const menu = res?.list?.find(
-                    item => item.category === category
-                  );
-                  return (
-                    <SortableItem
-                      key={menu?.category}
-                      id={menu?.category}
-                      type="sidebar"
-                      plus={
-                        openSections[menu?.category] && (
-                          <DndContext
-                            collisionDetection={closestCenter}
-                            onDragEnd={event =>
-                              handleNestedDragEnd(event, menu?.category)
-                            }
-                          >
-                            <SortableContext
-                              items={orders[menu?.category]}
-                              strategy={verticalListSortingStrategy}
+              <SortableContext
+                items={topOrder}
+                strategy={verticalListSortingStrategy}
+              >
+                <ul className="resume-menu">
+                  <li>
+                    <div onClick={() => toggleSection("profile")}>
+                      <i
+                        className={
+                          openSections["profile"]
+                            ? "xi-angle-down-min"
+                            : "xi-angle-right-min"
+                        }
+                      />
+                      <p>프로필</p>
+                    </div>
+                    {openSections["profile"] && (
+                      <ul>
+                        <li className="resume-child">
+                          <i className={sectionsConfig["profile"].icon} />
+                          <p>자기소개</p>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                  {topOrder.map(category => {
+                    const menu = res?.list?.find(
+                      item => item.category === category
+                    );
+                    return (
+                      <SortableItem
+                        key={menu?.category}
+                        id={menu?.category}
+                        type="sidebar"
+                        plus={
+                          openSections[menu?.category] && (
+                            <DndContext
+                              collisionDetection={closestCenter}
+                              onDragStart={({ active }) => {
+                                setActiveSubId(active.id);
+                              }}
+                              onDragEnd={event =>
+                                handleNestedDragEnd(event, menu?.category)
+                              }
                             >
-                              <ul>
-                                {orders[menu?.category]?.map(id => {
-                                  const subMenuItem = menu.sub.find(
-                                    item => item.id === id
-                                  );
-                                  return (
-                                    <SortableItem
-                                      key={id}
-                                      id={id}
-                                      type="sidebar"
-                                    >
-                                      <li className="resume-child">
-                                        <i className={menu?.icon} />
-                                        <p>{subMenuItem?.title}</p>
-                                      </li>
-                                    </SortableItem>
-                                  );
-                                })}
-                              </ul>
-                            </SortableContext>
-                          </DndContext>
-                        )
-                      }
-                    >
-                      <li>
-                        <div onClick={() => toggleSection(menu?.category)}>
-                          <i
-                            className={
-                              openSections[menu?.category]
-                                ? "xi-angle-down-min"
-                                : "xi-angle-right-min"
-                            }
-                          />
-                          <p>{menu?.title}</p>
-                        </div>
-                      </li>
-                    </SortableItem>
-                  );
-                })}
-              </ul>
-            </SortableContext>
-          </DndContext>
+                              <SortableContext
+                                items={orders[menu?.category]}
+                                strategy={verticalListSortingStrategy}
+                              >
+                                <ul>
+                                  {orders[menu?.category]?.map(id => {
+                                    const subMenuItem = menu.sub.find(
+                                      item => item.id === id
+                                    );
+                                    return (
+                                      <SortableItem
+                                        key={id}
+                                        id={id}
+                                        type="sidebar"
+                                      >
+                                        <li className="resume-child">
+                                          <i className={menu?.icon} />
+                                          <p>{subMenuItem?.title}</p>
+                                        </li>
+                                      </SortableItem>
+                                    );
+                                  })}
+                                </ul>
+                              </SortableContext>
+                              <DragOverlay>
+                                {activeSubId ? (
+                                  <SortableItem
+                                    key={activeSubId}
+                                    id={activeSubId}
+                                  />
+                                ) : null}
+                              </DragOverlay>
+                            </DndContext>
+                          )
+                        }
+                      >
+                        <li>
+                          <div onClick={() => toggleSection(menu?.category)}>
+                            <i
+                              className={
+                                openSections[menu?.category]
+                                  ? "xi-angle-down-min"
+                                  : "xi-angle-right-min"
+                              }
+                            />
+                            <p>{menu?.title}</p>
+                          </div>
+                        </li>
+                      </SortableItem>
+                    );
+                  })}
+                </ul>
+              </SortableContext>
+              <DragOverlay>
+                {activeId ? (
+                  <SortableItem key={activeId} id={activeId} />
+                ) : null}
+              </DragOverlay>
+            </DndContext>
+          </div>
         </div>
       </nav>
     </aside>
