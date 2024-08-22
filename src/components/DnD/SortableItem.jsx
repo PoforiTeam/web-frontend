@@ -30,6 +30,7 @@ export function SortableItem(props) {
             <img src="../src/assets/img/draggabledots.png" />
           </div>
         )}
+
         {props.type === "sidebar" && (
           <div
             className="dnd-box__drag drag-sidebar"

@@ -25,7 +25,49 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
     skill: false,
     link: false,
   });
+  const [visibility, setVisibility] = useState({});
+  const toggleVisibility = (category, id) => {
+    setVisibility((prevVisibility) => ({
+      ...prevVisibility,
+      [category]: {
+        ...prevVisibility[category],
+        [id]: !prevVisibility[category]?.[id],
+      },
+    }));
+  };
+  const toggleVisibilityMain = (category, id) => {
+    setVisibility((prevVisibility) => {
+      // Get the current visibility for the given category
+      const currentCategoryVisibility = prevVisibility[category]?.[id];
 
+      // Determine the new visibility state based on the current state
+      const newVisibilityState = !currentCategoryVisibility;
+
+      // Create a new visibility object based on the new state
+      const updatedVisibility = {
+        ...prevVisibility,
+        [category]: {
+          ...prevVisibility[category],
+          [id]: newVisibilityState,
+          ...(newVisibilityState
+            ? Object.fromEntries(
+                Object.keys(prevVisibility[category] || {}).map((key) => [
+                  key,
+                  true,
+                ])
+              )
+            : Object.fromEntries(
+                Object.keys(prevVisibility[category] || {}).map((key) => [
+                  key,
+                  false,
+                ])
+              )),
+        },
+      };
+
+      return updatedVisibility;
+    });
+  };
   const sectionsConfig = {
     profile: {
       title: "프로필",
@@ -74,11 +116,11 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
 
       let resList = {
         title: data.response.title,
-        list: categoryList.map(list => ({
+        list: categoryList.map((list) => ({
           category: list.category,
           title: sectionsConfig[list.category].title,
           icon: sectionsConfig[list.category].icon,
-          sub: list.item_list?.map(item => ({
+          sub: list.item_list?.map((item) => ({
             id: item[`${list.category}_id`],
             title: item[sectionsConfig[list.category].subMenuType],
           })),
@@ -86,24 +128,40 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
       };
 
       let initialOrders = {};
-      categoryList.forEach(list => {
+      categoryList.forEach((list) => {
         initialOrders[list.category] = list.item_list
           .sort(
             (a, b) =>
               a[`${list.category}_sub_order`] - b[`${list.category}_sub_order`]
           )
-          .map(item => item[`${list.category}_id`]);
+          .map((item) => item[`${list.category}_id`]);
       });
       console.log(resList, initialOrders);
+
+      let initialVisibility = {};
+      categoryList.forEach((list) => {
+        initialVisibility[list.category] = { main: true };
+        list.item_list.reduce((_, item) => {
+          const isActive =
+            item[`${list.category}_is_active`] !== null
+              ? item[`${list.category}_is_active`]
+              : true;
+          initialVisibility[list.category][item[`${list.category}_id`]] =
+            isActive;
+        }, {});
+      });
+      console.log("initialVisiable", initialVisibility);
+      setVisibility(initialVisibility);
       setRes(resList);
       setOrders(initialOrders);
       setTopOrder(
         categoryList
           .filter(
-            list => list.category !== "profile" && list.category !== "introduce"
+            (list) =>
+              list.category !== "profile" && list.category !== "introduce"
           )
           .sort((a, b) => a.top_order - b.top_order)
-          .map(list => list.category)
+          .map((list) => list.category)
       );
       console.log(resList, initialOrders, topOrder);
     } catch (err) {
@@ -111,9 +169,9 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
     }
   };
 
-  const toggleSection = section => {
+  const toggleSection = (section) => {
     console.log(section);
-    setOpenSections(prevSections => ({
+    setOpenSections((prevSections) => ({
       ...prevSections,
       [section]: !prevSections[section],
     }));
@@ -122,7 +180,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
   const handleNestedDragEnd = (event, category) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setOrders(prevOrders => {
+      setOrders((prevOrders) => {
         const activeIndex = prevOrders[category].indexOf(active.id);
         const overIndex = prevOrders[category].indexOf(over.id);
         const newOrder = arrayMove(
@@ -148,10 +206,10 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
     }
   };
 
-  const handleTopLevelDragEnd = event => {
+  const handleTopLevelDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setTopOrder(prevOrder => {
+      setTopOrder((prevOrder) => {
         const activeIndex = prevOrder.indexOf(active.id);
         const overIndex = prevOrder.indexOf(over.id);
         const newOrder = arrayMove(prevOrder, activeIndex, overIndex);
@@ -162,7 +220,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
     }
   };
 
-  const updateTopOrder = async list => {
+  const updateTopOrder = async (list) => {
     try {
       let topOrderList = {
         resume_id: Number(id),
@@ -179,7 +237,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
     }
   };
 
-  const updateDetailOrder = async list => {
+  const updateDetailOrder = async (list) => {
     try {
       await resumeApi.order.detail(list);
       setUpdate(true);
@@ -195,6 +253,10 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
   useEffect(() => {
     isUpdate && getResumeDetail();
   }, [isUpdate]);
+
+  useEffect(() => {
+    console.log(visibility);
+  }, [visibility]);
 
   return (
     <aside className="sidebar">
@@ -228,7 +290,10 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
               >
                 <ul className="resume-menu">
                   <li>
-                    <div onClick={() => toggleSection("profile")}>
+                    <div
+                      className="dnd-box"
+                      onClick={() => toggleSection("profile")}
+                    >
                       <i
                         className={
                           openSections["profile"]
@@ -236,21 +301,69 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
                             : "xi-angle-right-min"
                         }
                       />
-                      <p>프로필</p>
+
+                      <p
+                        style={{
+                          color: visibility["profile"]?.main || "#979797",
+                        }}
+                      >
+                        프로필
+                      </p>
+                      <div
+                        className="dnd-box__drag drag-sidebar"
+                        onClick={(e) => {
+                          toggleVisibility("profile", "main"),
+                            e.stopPropagation();
+                        }}
+                      >
+                        <i
+                          className={
+                            visibility["profile"]?.main
+                              ? "xi-eye-o"
+                              : "xi-eye-off-o"
+                          }
+                        />
+                      </div>
                     </div>
-                    {openSections["profile"] && (
-                      <ul>
+                    {openSections["profile"] &&
+                      (visibility["profile"]?.main ? (
+                        <ul className="dnd-box">
+                          <li className="resume-child">
+                            <i className={sectionsConfig["profile"].icon} />
+                            <p>자기소개</p>
+                          </li>
+                          <div
+                            className="dnd-box__drag drag-sidebar"
+                            onClick={(e) => {
+                              toggleVisibility("profile", "main"),
+                                e.stopPropagation();
+                            }}
+                          >
+                            <i className="xi-eye-o" />
+                          </div>
+                        </ul>
+                      ) : (
                         <li className="resume-child">
-                          <i className={sectionsConfig["profile"].icon} />
-                          <p>자기소개</p>
+                          <i
+                            className="xi-eye-off-o"
+                            onClick={(e) => toggleVisibility("profile", "main")}
+                          />
+
+                          <p
+                            style={{
+                              color: "#979797",
+                            }}
+                          >
+                            자기소개
+                          </p>
                         </li>
-                      </ul>
-                    )}
+                      ))}
                   </li>
-                  {topOrder.map(category => {
+                  {topOrder.map((category) => {
                     const menu = res?.list?.find(
-                      item => item.category === category
+                      (item) => item.category === category
                     );
+                    const isVisible = visibility[category]?.main;
                     return (
                       <SortableItem
                         key={menu?.category}
@@ -263,7 +376,7 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
                               onDragStart={({ active }) => {
                                 setActiveSubId(active.id);
                               }}
-                              onDragEnd={event =>
+                              onDragEnd={(event) =>
                                 handleNestedDragEnd(event, menu?.category)
                               }
                             >
@@ -272,21 +385,73 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
                                 strategy={verticalListSortingStrategy}
                               >
                                 <ul>
-                                  {orders[menu?.category]?.map(id => {
+                                  {orders[menu?.category]?.map((id) => {
                                     const subMenuItem = menu.sub.find(
-                                      item => item.id === id
+                                      (item) => item.id === id
                                     );
-                                    return (
-                                      <SortableItem
-                                        key={id}
-                                        id={id}
-                                        type="sidebar"
-                                      >
-                                        <li className="resume-child">
-                                          <i className={menu?.icon} />
-                                          <p>{subMenuItem?.title}</p>
+                                    const isMain =
+                                      visibility?.[menu?.category]?.main;
+                                    console.log("isMain", isMain);
+                                    const isVisible =
+                                      visibility[menu?.category]?.[id];
+                                    return visibility[menu?.category]?.main ? (
+                                      isVisible ? (
+                                        <SortableItem
+                                          key={id}
+                                          id={id}
+                                          type="sidebar"
+                                        >
+                                          <li className="resume-child">
+                                            <i className={menu?.icon} />
+                                            <p>{subMenuItem?.title}</p>
+                                          </li>
+                                          <div
+                                            className="dnd-box__drag drag-sidebar last"
+                                            onClick={() =>
+                                              toggleVisibility(
+                                                menu?.category,
+                                                id
+                                              )
+                                            }
+                                          >
+                                            <i className="xi-eye-o" />
+                                          </div>
+                                        </SortableItem>
+                                      ) : (
+                                        <li className="resume-child" key={id}>
+                                          <i
+                                            className="xi-eye-off-o"
+                                            onClick={() =>
+                                              toggleVisibility(
+                                                menu?.category,
+                                                id
+                                              )
+                                            }
+                                          />
+                                          <p style={{ color: "#979797" }}>
+                                            {subMenuItem?.title}
+                                          </p>
                                         </li>
-                                      </SortableItem>
+                                      )
+                                    ) : (
+                                      <li className="resume-child" key={id}>
+                                        <i
+                                          className="xi-eye-off-o"
+                                          onClick={() => {
+                                            toggleVisibility(
+                                              menu?.category,
+                                              "main"
+                                            );
+                                            toggleVisibility(
+                                              menu?.category,
+                                              id
+                                            );
+                                          }}
+                                        />
+                                        <p style={{ color: "#979797" }}>
+                                          {subMenuItem?.title}
+                                        </p>
+                                      </li>
                                     );
                                   })}
                                 </ul>
@@ -312,7 +477,22 @@ const Sidebar = ({ isUpdate, setUpdate }) => {
                                   : "xi-angle-right-min"
                               }
                             />
-                            <p>{menu?.title}</p>
+                            <p style={{ color: isVisible || "#979797" }}>
+                              {menu?.title}
+                            </p>
+                            <div
+                              className="dnd-box__drag drag-sidebar last"
+                              onClick={(e) => {
+                                toggleVisibilityMain(menu?.category, "main");
+                                e.stopPropagation();
+                              }}
+                            >
+                              <i
+                                className={
+                                  isVisible ? "xi-eye-o" : "xi-eye-off-o"
+                                }
+                              />
+                            </div>
                           </div>
                         </li>
                       </SortableItem>

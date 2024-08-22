@@ -4,7 +4,7 @@ import { resumeApi } from "../../api/resumeApi";
 import { SortableItem } from "../DnD/SortableItem";
 import ResumeSection from "../Resume/ResumeSection";
 import EducationFormItem from "./EducationFormItem";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
   verticalListSortingStrategy,
@@ -17,6 +17,7 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
   const [order, setOrder] = useState([]);
   const [editIndices, setEditIndices] = useState([]);
   const [isNewForm, setIsNewForm] = useState(false);
+  const [activeSubId, setActiveSubId] = useState(null);
 
   const getEducationDetail = async () => {
     try {
@@ -26,19 +27,19 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
           (a, b) => a.education_sub_order - b.education_sub_order
         );
         setEducations(sortedEducations);
-        setOrder(sortedEducations.map(edu => edu.education_id));
+        setOrder(sortedEducations.map((edu) => edu.education_id));
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleEdit = index => {
-    setEditIndices(prev => [...prev, index]);
+  const handleEdit = (index) => {
+    setEditIndices((prev) => [...prev, index]);
   };
 
-  const handleCancel = index => {
-    setEditIndices(prev => prev.filter(i => i !== index));
+  const handleCancel = (index) => {
+    setEditIndices((prev) => prev.filter((i) => i !== index));
   };
 
   const handleNewForm = () => {
@@ -49,24 +50,25 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
     setIsNewForm(false);
   };
 
-  const handleDragEnd = event => {
+  const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setOrder(prevOrder => {
+      setOrder((prevOrder) => {
         const activeIndex = prevOrder.indexOf(active.id);
         const overIndex = prevOrder.indexOf(over.id);
         const newOrder = arrayMove(prevOrder, activeIndex, overIndex);
         updateEducationOrder(newOrder);
         return newOrder;
       });
+      setActiveSubId(null);
     }
   };
 
-  const updateEducationOrder = newOrder => {
+  const updateEducationOrder = (newOrder) => {
     const updatedEducations = newOrder
       .map((id, index) => {
         console.log(id);
-        const education = educations.find(edu => edu.education_id === id);
+        const education = educations.find((edu) => edu.education_id === id);
         if (education) {
           return {
             ...education,
@@ -76,7 +78,7 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
         return null;
       })
       .filter(Boolean); // filter out null values
-    const detailOrders = updatedEducations.map(edu => ({
+    const detailOrders = updatedEducations.map((edu) => ({
       item_id: edu.education_id,
       item_order: edu.education_sub_order,
     }));
@@ -88,7 +90,7 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
     });
   };
 
-  const updateDetailOrder = async list => {
+  const updateDetailOrder = async (list) => {
     try {
       await resumeApi.order.detail(list);
       setUpdate(true);
@@ -108,7 +110,13 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
   return (
     <>
       <ResumeSection title="교육" onClick={handleNewForm} />
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragStart={({ active }) => {
+          setActiveSubId(active.id);
+        }}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           {isNewForm && (
             <EducationFormItem
@@ -131,7 +139,7 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
           )}
           {order.map((educationId, index) => {
             const education = educations.find(
-              edu => edu.education_id === educationId
+              (edu) => edu.education_id === educationId
             );
             return (
               <SortableItem key={educationId} id={educationId} type="form">
@@ -151,6 +159,11 @@ const EducationForm = ({ isUpdate, setUpdate }) => {
             );
           })}
         </SortableContext>
+        <DragOverlay>
+          {activeSubId ? (
+            <SortableItem key={activeSubId} id={activeSubId} />
+          ) : null}
+        </DragOverlay>
       </DndContext>
     </>
   );
