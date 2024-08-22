@@ -7,21 +7,32 @@ import ProjectForm from "../../components/Form/ProjectForm";
 import SkillsForm from "../../components/Form/SkillsForm";
 import CareerForm from "../../components/Form/CareerForm";
 import Sidebar from "../../components/layout/Sidebar";
-import AddButton from "../../components/Resume/AddButton";
-import ResumeSection from "../../components/Resume/ResumeSection";
 import "./Resume.scss";
 import { resumeApi } from "../../api/resumeApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
+const formComponents = {
+  profile: ProfileForm,
+  introduce: IntroduceForm,
+  education: EducationForm,
+  career: CareerForm,
+  project: ProjectForm,
+  experience: ExperienceForm,
+  skill: SkillsForm,
+  link: LinksForm,
+};
+
 const Resume = () => {
   const { id } = useParams();
-  const [res, setRes] = useState({});
+  const [res, setRes] = useState([]);
   const [isUpdate, setUpdate] = useState(false);
+
   const getResumeDetail = async () => {
     try {
       const { data } = await resumeApi.detail(id);
-      console.log(data);
-      setRes(data.response);
+      console.log("레쥬메", data);
+      setRes(data.response.result);
     } catch (err) {
       console.log(err);
     }
@@ -29,11 +40,14 @@ const Resume = () => {
 
   useEffect(() => {
     console.log(isUpdate);
+    getResumeDetail();
     setUpdate(false);
   }, [isUpdate]);
+
   useEffect(() => {
     getResumeDetail();
   }, []);
+
   return (
     <>
       <Sidebar isUpdate={isUpdate} setUpdate={setUpdate} />
@@ -41,20 +55,21 @@ const Resume = () => {
         <div className="resume-container">
           <div className="resume-header">
             <span>{res.title}</span>
-            {/* <div>
-            Web <i className="xi-angle-down-min" />
-          </div> */}
           </div>
           <div className="resume-main">
             <div className="resume-main-box">
-              <ProfileForm />
-              <IntroduceForm />
-              <EducationForm isUpdate={isUpdate} setUpdate={setUpdate} />
-              <CareerForm />
-              <ProjectForm />
-              <ExperienceForm />
-              <SkillsForm />
-              <LinksForm />
+              {res
+                ?.sort((a, b) => a.top_order - b.top_order) // top_order에 따라 정렬
+                .map((section) => {
+                  const Component = formComponents[section.category];
+                  return (
+                    <Component
+                      key={section.category}
+                      isUpdate={isUpdate}
+                      setUpdate={setUpdate}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>

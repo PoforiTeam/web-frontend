@@ -32,6 +32,13 @@
     justify-content: center;
   }
 }
+.resume-menu {
+  .dnd-box {
+    &:hover {
+      border-right: 1px solid #d9d9d9;
+    }
+  }
+}
 .dnd-box {
   position: relative;
   display: flex;
