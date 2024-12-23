@@ -4,7 +4,7 @@ import Home from "./pages/Home/Home";
 import Resume from "./pages/Resume/Resume";
 // import Profile from './pages/Profile';
 import Settings from "./pages/Settings/Settings";
-import KakaoRedirection from "./utils/socialLogin/KakaoRedirection";
+import KakaoRedirection from "./utils/socialLogin/kakaoRedirection";
 
 const router = (openLoginModal, openAccountModal) =>
   createBrowserRouter([
