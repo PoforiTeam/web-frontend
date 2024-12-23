@@ -1,20 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
-import "./Home.scss";
-import { useNavigate } from "react-router-dom";
-import { resumeApi } from "../../api/resumeApi";
-import AddButton from "../../components/Resume/AddButton";
+import { useEffect, useRef, useState } from 'react';
+import { useAuthContext } from '../../context/AuthContext';
+import './Home.scss';
+import { useNavigate } from 'react-router-dom';
+import { resumeApi } from '../../api/resumeApi';
+import AddButton from '../../components/Resume/AddButton';
 
 const Home = () => {
   const { auth } = useAuthContext();
   const navigate = useNavigate();
   const [resumeList, setResumeList] = useState(null);
-  const [isSubDropdown, setSubDropdown] = useState("");
+  const [isSubDropdown, setSubDropdown] = useState('');
   const dropdownRef = useRef(null);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setSubDropdown("");
+      setSubDropdown('');
     }
   };
 
@@ -41,7 +41,7 @@ const Home = () => {
     }
   };
 
-  const deleteResume = async id => {
+  const deleteResume = async (id) => {
     try {
       const { data } = await resumeApi.delete(id);
       console.log(data);
@@ -51,7 +51,7 @@ const Home = () => {
     }
   };
 
-  const copyResume = async id => {
+  const copyResume = async (id) => {
     try {
       const { data } = await resumeApi.copy(id);
       console.log(data);
@@ -62,16 +62,16 @@ const Home = () => {
   };
 
   function formatDate(dateString) {
-    return dateString.split("T")[0].replace(/-/g, ".");
+    return dateString.split('T')[0].replace(/-/g, '.');
   }
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
   useEffect(() => {
-    console.log("auth", auth);
+    console.log('auth', auth);
     if (auth) {
       getResumeList();
     }
@@ -113,7 +113,7 @@ const Home = () => {
             </div>
           </div>
           <div className="resume_list">
-            {resumeList?.map(list => (
+            {resumeList?.map((list) => (
               <div className="resume_card" key={list?.resume_id}>
                 <div className="preview">
                   <div className="preview-box">
@@ -122,11 +122,11 @@ const Home = () => {
                         <h1>{list?.resume_title}</h1>
                         <div className="preview-list">
                           <div></div>
-                          <p>{list?.email || "000@0000.000"}</p>
+                          <p>{list?.email || '000@0000.000'}</p>
                         </div>
                         <div className="preview-list">
                           <div></div>
-                          <p>{list?.phone || "010-0000-0000"}</p>
+                          <p>{list?.phone || '010-0000-0000'}</p>
                         </div>
                       </div>
                       <div className="preview-default"></div>
