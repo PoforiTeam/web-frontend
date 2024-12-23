@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -155,4 +155,49 @@ button {
   color: inherit;
   border: none;
   cursor: pointer;
+}
+/* mdx-editor-content 내부의 요소들은 리셋하지 않도록 설정 */
+.mdx-editor h1,
+.mdx-editor h2,
+.mdx-editor h3,
+.mdx-editor p,
+.mdx-editor ul,
+.mdx-editor ol,
+.mdx-editor blockquote {
+  margin: initial;
+  padding: initial;
+  font-size: initial;
+  font-weight: initial;
+  list-style: initial;
+  border: initial;
+  text-decoration: initial;
+}
+.mdx-editor h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.mdx-editor h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.mdx-editor blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+  color: #555;
+  font-style: italic;
+  margin: 1em 0;
+}
+
+.mdx-editor ul {
+  list-style-type: disc;
+  padding-left: 2em;
+}
+
+.mdx-editor ol {
+  list-style-type: decimal;
+  padding-left: 2em;
 }

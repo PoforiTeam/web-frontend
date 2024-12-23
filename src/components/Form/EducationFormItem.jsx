@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { resumeApi } from "../../api/resumeApi";
 import ResumeBox from "../Resume/ResumeBox";
+import Editor from "../common/Editor";
 
 const EducationFormItem = ({
   id,
@@ -29,7 +30,7 @@ const EducationFormItem = ({
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
-    onSubmit: values => {
+    onSubmit: (values) => {
       if (education.education_id) {
         updateEducation(values);
       } else {
@@ -38,7 +39,7 @@ const EducationFormItem = ({
     },
   });
 
-  const createEducation = async values => {
+  const createEducation = async (values) => {
     try {
       const res = await resumeApi.education.create(values);
       console.log(res);
@@ -49,7 +50,7 @@ const EducationFormItem = ({
     }
   };
 
-  const updateEducation = async values => {
+  const updateEducation = async (values) => {
     try {
       const res = await resumeApi.education.update(values);
       console.log(res);
@@ -176,6 +177,7 @@ const EducationFormItem = ({
           </div>
           <div className="form-group">
             <label htmlFor="detail">상세 설명</label>
+            <Editor />
             <textarea
               id="detail"
               name="detail"
