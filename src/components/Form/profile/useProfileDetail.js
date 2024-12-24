@@ -8,7 +8,7 @@ const useProfileDetail = (id) => {
   const getProfile = async () => {
     try {
       const { data } = await resumeApi.profile.detail(id);
-      if (isEmptyObject(data.response)) {
+      if (Object.keys(data.response).length > 0) {
         setProfile(data.response);
         const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/public/${data.response.profile_image}`;
         setImagePreview(imageUrl);

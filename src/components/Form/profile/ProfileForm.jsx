@@ -16,6 +16,7 @@ const ProfileForm = () => {
     getProfile,
     createProfile,
     updateProfile,
+    deleteProfile,
   } = useProfileDetail(id);
   const [isEdit, setEdit] = useState(false);
 
@@ -65,7 +66,7 @@ const ProfileForm = () => {
 
   return (
     <>
-      <ResumeBox handleEdit={() => setEdit(true)}>
+      <ResumeBox handleEdit={() => setEdit(true)} handleDelete={deleteProfile}>
         <ProfileDisplay formik={formik} imagePreview={imagePreview} />
       </ResumeBox>
 
