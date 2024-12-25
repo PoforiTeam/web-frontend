@@ -1,42 +1,23 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import ResumeBox from '../../Resume/ResumeBox';
-import { resumeApi } from '../../../api/resumeApi';
 import CareerEditForm from './CareerEditForm';
 import { useParams } from 'react-router-dom';
+import useCareerDetail from './useCareerDetail';
+import useCareerFormik from './useCareerFormik';
 
-const CareerFormItem = ({ res, getEducation, deleteEducation }) => {
+const CareerFormItem = ({ res }) => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
-
-  const initialValues = {
-    resume_id: Number(id),
-    career_id: Number(res.career_id) || '',
-    company_name: res.company_name || '',
-    job_title: res.job_title || '',
-    career_status: res.career_status || '',
-    career_start_date: res.career_start_date || '',
-    career_end_date: res.career_end_date || '',
-    job_detail: res.job_detail || '',
-  };
-
-  const formik = useFormik({
-    initialValues,
-    enableReinitialize: true,
-    onSubmit: (values) => {
+  const { updateEducation, deleteEducation } = useCareerDetail(id);
+  const formik = useCareerFormik({
+    id,
+    res,
+    onSubmitCallback: (values) => {
       updateEducation(values);
       setIsEdit(false);
     },
   });
-
-  const updateEducation = async (values) => {
-    try {
-      await resumeApi.career.update(values);
-      getEducation();
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <>

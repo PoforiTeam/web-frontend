@@ -1,75 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import ResumeSection from '../../Resume/ResumeSection';
 import CareerFormItem from './CareerFormItem';
-import { resumeApi } from '../../../api/resumeApi';
 import CareerEditForm from './CareerEditForm';
+import useCareerDetail from './useCareerDetail';
+import useCareerFormik from './useCareerFormik';
 
 const CareerForm = () => {
   const { id } = useParams();
-  const [educationList, setEducationList] = useState([]);
   const [isNewForm, setIsNewForm] = useState(false);
+  const { getEducation, createEducation, deleteEducation, educationList } =
+    useCareerDetail(id);
 
-  const initialValues = {
-    resume_id: Number(id),
-    career_id: '',
-    company_name: '',
-    job_title: '',
-    career_status: '',
-    career_start_date: '',
-    career_end_date: '',
-    job_detail: '',
-  };
-
-  const formik = useFormik({
-    initialValues,
-    enableReinitialize: true,
-    onSubmit: (values) => {
+  const formik = useCareerFormik({
+    id,
+    onSubmitCallback: (values) => {
       createEducation(values);
       setIsNewForm(false);
     },
   });
 
-  const getEducation = async () => {
-    try {
-      const { data } = await resumeApi.career.detail(id);
-      setEducationList(data.response.result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const createEducation = async (values) => {
-    try {
-      await resumeApi.career.create(values);
-      getEducation();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateEducation = async (values) => {
-    try {
-      await resumeApi.career.update(values);
-      getEducation();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const deleteEducation = async (career_id) => {
-    try {
-      await resumeApi.career.delete(career_id);
-      getEducation();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     getEducation();
-  }, []);
+  }, [educationList]);
 
   return (
     <>
