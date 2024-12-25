@@ -6,7 +6,7 @@ import LinksForm from '../../components/Form/LinksForm';
 import ProfileForm from '../../components/Form/profile/ProfileForm';
 import ProjectForm from '../../components/Form/ProjectForm';
 import SkillsForm from '../../components/Form/SkillsForm';
-import CareerForm from '../../components/Form/CareerForm';
+import CareerForm from '../../components/Form/career/CareerForm';
 import Sidebar from '../../components/layout/Sidebar';
 import './Resume.scss';
 import { resumeApi } from '../../api/resumeApi';
