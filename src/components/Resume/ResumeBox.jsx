@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 const ResumeBox = ({ index, handleEdit, handleDelete, children }) => {
   return (
     <div className="resume-box" key={index}>
