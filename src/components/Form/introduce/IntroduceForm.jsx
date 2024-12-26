@@ -27,7 +27,9 @@ const IntroduceForm = () => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      introduce ? updateIntroduce(values) : createIntroduce(values);
+      Object.keys(introduce).length > 0
+        ? updateIntroduce(values)
+        : createIntroduce(values);
       setEdit(false);
     },
   });
@@ -35,6 +37,11 @@ const IntroduceForm = () => {
   const handleCancel = () => {
     formik.resetForm();
     setEdit(false);
+  };
+
+  const handleDelete = () => {
+    deleteIntroduce(introduce.introduce_id);
+    formik.resetForm();
   };
 
   useEffect(() => {
@@ -53,13 +60,10 @@ const IntroduceForm = () => {
     );
   }
 
-  if (formik.values.introduce_text.length > 0) {
+  if (Object.keys(introduce).length > 0) {
     return (
-      <ResumeBox
-        handleEdit={() => setEdit(true)}
-        handleDelete={deleteIntroduce}
-      >
-        <div className="introduce-item">{formik.values.introduce_text}</div>
+      <ResumeBox handleEdit={() => setEdit(true)} handleDelete={handleDelete}>
+        <div className="introduce-item">{introduce.introduce_text}</div>
       </ResumeBox>
     );
   }

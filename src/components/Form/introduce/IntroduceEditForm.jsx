@@ -6,7 +6,7 @@ const IntroduceEditForm = ({ formik, textareaRef, handleCancel }) => {
       <h2>자기소개</h2>
       <div className="tip">
         <span>🙆‍♀️</span>
-        <p>
+        <div>
           자기소개는 내가 어떤 경력/경험을 가졌고 관심사가 무엇인지 위주의 짧은
           글이에요.
           <ul>
@@ -19,7 +19,7 @@ const IntroduceEditForm = ({ formik, textareaRef, handleCancel }) => {
             </li>
             <li>경력인 경우에는, 업무 성과를 강조하는 것을 추천합니다.</li>
           </ul>
-        </p>
+        </div>
       </div>
       <div className="form-group">
         <label htmlFor="introduce_text">

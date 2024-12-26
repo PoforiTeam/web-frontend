@@ -1,50 +1,50 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { resumeApi } from '../../../api/resumeApi';
 
 export default function useCareerDetail(id) {
-  const [educationList, setEducationList] = useState([]);
+  const [careerList, setCareerList] = useState(null);
 
-  const getEducation = async () => {
+  const getCareer = async () => {
     try {
       const { data } = await resumeApi.career.detail(id);
-      setEducationList(data.response.result);
+      setCareerList(data.response.result);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const createEducation = async (values) => {
+  const createCareer = async (values) => {
     try {
       await resumeApi.career.create(values);
-      getEducation();
+      getCareer();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const updateEducation = async (values) => {
+  const updateCareer = async (values) => {
     try {
       await resumeApi.career.update(values);
-      getEducation();
+      getCareer();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const deleteEducation = async (career_id) => {
+  const deleteCareer = async (career_id) => {
     try {
       await resumeApi.career.delete(career_id);
-      getEducation();
+      getCareer();
     } catch (err) {
       console.log(err);
     }
   };
 
   return {
-    getEducation,
-    createEducation,
-    updateEducation,
-    deleteEducation,
-    educationList,
+    getCareer,
+    createCareer,
+    updateCareer,
+    deleteCareer,
+    careerList,
   };
 }

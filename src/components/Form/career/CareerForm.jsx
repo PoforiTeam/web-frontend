@@ -9,20 +9,19 @@ import useCareerFormik from './useCareerFormik';
 const CareerForm = () => {
   const { id } = useParams();
   const [isNewForm, setIsNewForm] = useState(false);
-  const { getEducation, createEducation, deleteEducation, educationList } =
-    useCareerDetail(id);
+  const { getCareer, createCareer, careerList } = useCareerDetail(id);
 
   const formik = useCareerFormik({
     id,
     onSubmitCallback: (values) => {
-      createEducation(values);
+      createCareer(values);
       setIsNewForm(false);
     },
   });
 
   useEffect(() => {
-    getEducation();
-  }, [educationList]);
+    getCareer();
+  }, []);
 
   return (
     <>
@@ -30,14 +29,10 @@ const CareerForm = () => {
 
       {isNewForm && <CareerEditForm formik={formik} setIsEdit={setIsNewForm} />}
 
-      {educationList.map((res) => (
-        <CareerFormItem
-          key={res.career_id}
-          res={res}
-          getEducation={getEducation}
-          deleteEducation={deleteEducation}
-        />
-      ))}
+      {careerList &&
+        careerList.map((res) => (
+          <CareerFormItem key={res.career_id} res={res} />
+        ))}
     </>
   );
 };

@@ -7,7 +7,6 @@ export default function useIntroduceDetail(id) {
   const getIntroduce = async () => {
     try {
       const { data } = await resumeApi.introduce.detail(id);
-      console.log(data.response);
       if (Object.keys(data.response).length > 0) {
         setIntroduce(data.response);
       }
@@ -36,6 +35,7 @@ export default function useIntroduceDetail(id) {
   const deleteIntroduce = async (introduce_id) => {
     try {
       await resumeApi.introduce.delete(introduce_id);
+      getIntroduce();
     } catch (err) {
       console.log(err);
     }
