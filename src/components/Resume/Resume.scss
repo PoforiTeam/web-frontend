@@ -51,10 +51,16 @@
     margin-top: 5px;
   }
 }
+
+.form-container {
+  min-width: 630px;
+}
+
 .form-group {
   width: 100%;
   margin-bottom: 20px;
 }
+
 .form-group-flex {
   display: flex;
   justify-content: space-between;
@@ -75,10 +81,10 @@ textarea#introduce_text {
   font-size: 18px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="file"],
-input[type="month"],
+.form-group input[type='text'],
+.form-group input[type='email'],
+.form-group input[type='file'],
+input[type='month'],
 textarea,
 select {
   width: 100%;
