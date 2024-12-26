@@ -1,5 +1,4 @@
 import React from 'react';
-import ResumeBox from '../../Resume/ResumeBox';
 
 const ProfileDisplay = ({ formik, imagePreview }) => {
   return (

@@ -38,13 +38,13 @@ const ProfileTips = () => {
   return (
     <div className="tip">
       <span>🙆‍♀️</span>
-      <p>
+      <div>
         나에 대해 잘 설명해주는 한 문장의 타이틀은 강한 인상을 줄 수 있어요.
         <br />
         <ul>
           <li>입에 잘 달라붙는 문장일수록 좋아요!</li>
         </ul>
-      </p>
+      </div>
     </div>
   );
 };

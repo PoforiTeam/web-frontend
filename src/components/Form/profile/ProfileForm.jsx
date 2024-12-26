@@ -9,19 +9,16 @@ import useProfileDetail from './useProfileDetail';
 
 const ProfileForm = () => {
   const { id } = useParams();
-  const {
-    profile,
-    imagePreview,
-    setImagePreview,
-    getProfile,
-    createProfile,
-    updateProfile,
-  } = useProfileDetail(id);
+  const [imagePreview, setImagePreview] = useState(null);
   const [isEdit, setEdit] = useState(false);
+  const { getProfile, createProfile, updateProfile, deleteProfile } =
+    useProfileDetail(id);
+  const { data: profile, isLoading, isError } = getProfile();
 
   const formik = useFormik({
     initialValues: {
       resume_id: Number(id),
+      profile_id: profile?.profile_id || '',
       profile_title: profile?.profile_title || '',
       job_title: profile?.job_title || '',
       email: profile?.email || '',
@@ -30,7 +27,9 @@ const ProfileForm = () => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      profile ? updateProfile(values) : createProfile(values);
+      Object.keys(profile).length > 1
+        ? updateProfile.mutate(values)
+        : createProfile.mutate(values);
       setEdit(false);
     },
   });
@@ -59,13 +58,12 @@ const ProfileForm = () => {
     setEdit(false);
   };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
-
   return (
     <>
-      <ResumeBox handleEdit={() => setEdit(true)}>
+      <ResumeBox
+        handleEdit={() => setEdit(true)}
+        handleDelete={() => deleteProfile.mutate(profile.profile_id)}
+      >
         <ProfileDisplay formik={formik} imagePreview={imagePreview} />
       </ResumeBox>
 

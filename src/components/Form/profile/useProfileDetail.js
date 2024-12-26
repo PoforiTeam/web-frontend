@@ -1,55 +1,48 @@
-import { useState } from 'react';
 import { resumeApi } from '../../../api/resumeApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { querykeys } from '../../../constants/keys';
 
 const useProfileDetail = (id) => {
-  const [profile, setProfile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const queryClient = useQueryClient();
 
-  const getProfile = async () => {
-    try {
-      const { data } = await resumeApi.profile.detail(id);
-      if (isEmptyObject(data.response)) {
-        setProfile(data.response);
-        const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/public/${data.response.profile_image}`;
-        setImagePreview(imageUrl);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  const getProfile = () => {
+    const { data, isLoading, isError } = useQuery({
+      queryKey: [querykeys.PROFILE, id],
+      queryFn: async () => {
+        const { data: responseData } = await resumeApi.profile.detail(id);
+        if (!responseData.response) return null;
+        const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/public/${responseData.response.profile_image}`;
+        return { ...responseData.response, imagePreview: imageUrl };
+      },
+      enabled: !!id,
+    });
+
+    return { data, isLoading, isError };
   };
 
-  const createProfile = async (values) => {
-    try {
-      await resumeApi.profile.create(values);
-      fetchProfile();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const createProfile = useMutation({
+    mutationFn: async (values) => await resumeApi.profile.create(values),
+    onSuccess: () => {
+      queryClient.invalidateQueries([querykeys.PROFILE, id]);
+    },
+  });
 
-  const updateProfile = async (values) => {
-    try {
-      await resumeApi.profile.update(values);
-      fetchProfile();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const updateProfile = useMutation({
+    mutationFn: async (values) => await resumeApi.profile.update(values),
+    onSuccess: () => {
+      queryClient.invalidateQueries([querykeys.PROFILE, id]);
+    },
+  });
 
-  const deleteProfile = async (profile_id) => {
-    try {
-      await resumeApi.profile.delete(profile_id);
-      setProfile(null);
-      setImagePreview(null);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const deleteProfile = useMutation({
+    mutationFn: async (profile_id) =>
+      await resumeApi.profile.delete(profile_id),
+    onSuccess: () => {
+      queryClient.removeQueries([querykeys.PROFILE, id]);
+    },
+  });
 
   return {
-    profile,
-    imagePreview,
-    setImagePreview,
     getProfile,
     createProfile,
     updateProfile,
