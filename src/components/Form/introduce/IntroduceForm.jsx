@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import AddButton from '../../Resume/AddButton';
 import ResumeBox from '../../Resume/ResumeBox';
 import IntroduceEditForm from './IntroduceEditForm';
-import useIntroduceDetail from './useIntroduceDetail';
+import useIntroduceDetail from '@/hooks/useIntroduceDetail';
 
 const IntroduceForm = () => {
   const { id } = useParams();

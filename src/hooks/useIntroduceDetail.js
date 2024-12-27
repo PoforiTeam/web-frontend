@@ -1,6 +1,6 @@
-import { resumeApi } from '../../../api/resumeApi';
+import { resumeApi } from '../api/resumeApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { querykeys } from '../../../constants/keys';
+import { querykeys } from '../constants/keys';
 
 export default function useIntroduceDetail(id) {
   const queryClient = useQueryClient();

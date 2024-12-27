@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login, logout } from "../services/authService";
-import { useAuthContext } from "../../context/AuthContext";
-import { googleLogout } from "@react-oauth/google";
-import { resumeApi } from "../resumeApi";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { login, logout } from '../api/services/authService';
+import { useAuthContext } from '../context/AuthContext';
+import { googleLogout } from '@react-oauth/google';
+import { resumeApi } from '../api/resumeApi';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -31,7 +31,7 @@ export const useLogin = () => {
       if (context && context.onSuccess) {
         context.onSuccess(); // context에 있는 onSuccess 호출
       }
-      queryClient.invalidateQueries(["auth"]); // 'auth' 쿼리 무효화하여 데이터 새로고침
+      queryClient.invalidateQueries(['auth']); // 'auth' 쿼리 무효화하여 데이터 새로고침
     },
   });
 };
@@ -43,11 +43,11 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      if (auth?.socialType === "google") {
+      if (auth?.socialType === 'google') {
         googleLogout();
       }
       setAuth(null); // 로그아웃 성공 시 인증 상태 초기화
-      queryClient.invalidateQueries(["auth"]); // 'auth' 쿼리 무효화하여 데이터 새로고침
+      queryClient.invalidateQueries(['auth']); // 'auth' 쿼리 무효화하여 데이터 새로고침
     },
   });
 };
