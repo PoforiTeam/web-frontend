@@ -1,4 +1,7 @@
 import React, { useRef } from 'react';
+import Tips from '../../common/Tips';
+import EditForm from '../../common/EditForm';
+import CustomInput from '../../common/CustomInput';
 
 const ProfileEditForm = ({
   formik,
@@ -7,13 +10,17 @@ const ProfileEditForm = ({
   handleImageUpload,
 }) => {
   return (
-    <form
-      className="resume-form"
+    <EditForm
+      title={'프로필'}
       onSubmit={formik.handleSubmit}
-      style={{ marginBottom: '40px' }}
+      handleCancel={handleCancel}
     >
-      <h2>프로필</h2>
-      <ProfileTips />
+      <Tips
+        title={
+          '나에 대해 잘 설명해주는 한 문장의 타이틀은 강한 인상을 줄 수 있어요.'
+        }
+        list={['입에 잘 달라붙는 문장일수록 좋아요!']}
+      />
       <div className="form-group-flex">
         <ProfileInputFields formik={formik} />
         <ImageUpload
@@ -21,86 +28,63 @@ const ProfileEditForm = ({
           imagePreview={imagePreview}
         />
       </div>
-
-      <div className="button-group">
-        <button type="button" className="cancel-button" onClick={handleCancel}>
-          취소
-        </button>
-        <button type="submit" className="submit-button">
-          저장
-        </button>
-      </div>
-    </form>
-  );
-};
-
-const ProfileTips = () => {
-  return (
-    <div className="tip">
-      <span>🙆‍♀️</span>
-      <div>
-        나에 대해 잘 설명해주는 한 문장의 타이틀은 강한 인상을 줄 수 있어요.
-        <br />
-        <ul>
-          <li>입에 잘 달라붙는 문장일수록 좋아요!</li>
-        </ul>
-      </div>
-    </div>
+    </EditForm>
   );
 };
 
 const ProfileInputFields = ({ formik }) => {
+  const fields = [
+    {
+      tag: 'input',
+      id: 'profile_title',
+      name: 'profile_title',
+      label: '타이틀',
+      type: 'text',
+      maxLength: 30,
+      required: true,
+      onChange: formik.handleChange,
+      values: formik.values.profile_title,
+    },
+    {
+      tag: 'input',
+      id: 'job_title',
+      name: 'job_title',
+      label: '직무/직업',
+      type: 'text',
+      maxLength: 30,
+      required: true,
+      onChange: formik.handleChange,
+      values: formik.values.job_title,
+    },
+  ];
+  const fieldsWithFlex = [
+    {
+      tag: 'input',
+      id: 'email',
+      name: 'email',
+      label: '이메일',
+      type: 'email',
+      required: false,
+      onChange: formik.handleChange,
+      values: formik.values.email,
+    },
+    {
+      tag: 'input',
+      id: 'phone',
+      name: 'phone',
+      label: '휴대폰 번호',
+      type: 'text',
+      required: false,
+      onChange: formik.handleChange,
+      values: formik.values.phone,
+    },
+  ];
+
   return (
-    <div style={{ minWidth: '630px' }}>
-      <div className="form-group">
-        <label htmlFor="profile_title">
-          타이틀 <em>*</em>
-        </label>
-        <input
-          id="profile_title"
-          name="profile_title"
-          type="text"
-          maxLength={30}
-          onChange={formik.handleChange}
-          value={formik.values.profile_title}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="job_title">
-          직무/직업 <em>*</em>
-        </label>
-        <input
-          id="job_title"
-          name="job_title"
-          type="text"
-          maxLength={30}
-          onChange={formik.handleChange}
-          value={formik.values.job_title}
-        />
-      </div>
-
+    <div className="form-container">
+      <CustomInput fields={fields} />
       <div className="form-group-flex">
-        <div className="form-group">
-          <label htmlFor="email">이메일</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="phone">휴대폰 번호</label>
-          <input
-            id="phone"
-            name="phone"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.phone}
-          />
-        </div>
+        <CustomInput fields={fieldsWithFlex} />
       </div>
     </div>
   );

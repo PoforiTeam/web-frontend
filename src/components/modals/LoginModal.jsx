@@ -1,9 +1,9 @@
-import { useLogin } from "@/api/hooks/useAuth";
-import "./Modal.scss";
-import GoogleLoginBtn from "../../utils/socialLogin/GoogleLoginBtn";
-import Modal from "./Modal";
-import KakaoLoginBtn from "../../utils/socialLogin/KakaoLoginBtn";
-import NaverLoginBtn from "../../utils/socialLogin/NaverLoginBtn";
+import { useLogin } from '@/hooks/useAuth';
+import './Modal.scss';
+import GoogleLoginBtn from '../../utils/socialLogin/GoogleLoginBtn';
+import Modal from './Modal';
+import KakaoLoginBtn from '../../utils/socialLogin/KakaoLoginBtn';
+import NaverLoginBtn from '../../utils/socialLogin/NaverLoginBtn';
 
 const LoginModal = ({ onClose }) => {
   const loginMutation = useLogin();

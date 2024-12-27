@@ -1,6 +1,6 @@
-import { resumeApi } from '../../../api/resumeApi';
+import { resumeApi } from '../api/resumeApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { querykeys } from '../../../constants/keys';
+import { querykeys } from '../constants/keys';
 
 const useProfileDetail = (id) => {
   const queryClient = useQueryClient();

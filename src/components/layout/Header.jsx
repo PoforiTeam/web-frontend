@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { useLogout } from "../../api/hooks/useAuth";
-import { useAuthContext } from "../../context/AuthContext";
+import { useEffect, useRef, useState } from 'react';
+import { useLogout } from '@/hooks/useAuth';
+import { useAuthContext } from '../../context/AuthContext';
 
 const Header = ({ onLoginClick, onAccountClick }) => {
   const { auth } = useAuthContext();
@@ -8,7 +8,7 @@ const Header = ({ onLoginClick, onAccountClick }) => {
   const [isSubDropdown, setSubDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSubDropdown(false);
     }
@@ -18,9 +18,9 @@ const Header = ({ onLoginClick, onAccountClick }) => {
     logout();
   };
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
   return (
@@ -53,7 +53,7 @@ const Header = ({ onLoginClick, onAccountClick }) => {
         <button
           onClick={onLoginClick}
           style={{
-            fontSize: "14px",
+            fontSize: '14px',
           }}
         >
           로그인
