@@ -27,8 +27,8 @@ const CareerForm = () => {
       {isNewForm && <CareerEditForm formik={formik} setIsEdit={setIsNewForm} />}
 
       {careerList &&
-        careerList.map((res) => (
-          <CareerFormItem key={res.career_id} res={res} />
+        careerList.map((career) => (
+          <CareerFormItem key={career.career_id} career={career} />
         ))}
     </>
   );

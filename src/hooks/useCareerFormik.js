@@ -1,15 +1,15 @@
 import { useFormik } from 'formik';
 
-export default function useCareerFormik({ id, res = {}, onSubmitCallback }) {
+export default function useCareerFormik({ id, career = {}, onSubmitCallback }) {
   const initialValues = {
     resume_id: Number(id),
-    career_id: Number(res.career_id) || '',
-    company_name: res.company_name || '',
-    job_title: res.job_title || '',
-    career_status: res.career_status || '',
-    career_start_date: res.career_start_date || '',
-    career_end_date: res.career_end_date || '',
-    job_detail: res.job_detail || '',
+    career_id: Number(career.career_id) || '',
+    company_name: career.company_name || '',
+    job_title: career.job_title || '',
+    career_status: career.career_status || '',
+    career_start_date: career.career_start_date || '',
+    career_end_date: career.career_end_date || '',
+    job_detail: career.job_detail || '',
   };
 
   const formik = useFormik({

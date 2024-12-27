@@ -6,13 +6,13 @@ import { useParams } from 'react-router-dom';
 import useCareerDetail from '@/hooks/useCareerDetail';
 import useCareerFormik from '@/hooks/useCareerFormik';
 
-const CareerFormItem = ({ res }) => {
+const CareerFormItem = ({ career }) => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
   const { updateCareer, deleteCareer } = useCareerDetail(id);
   const formik = useCareerFormik({
     id,
-    res,
+    career,
     onSubmitCallback: (values) => {
       updateCareer.mutate(values);
       setIsEdit(false);
