@@ -5,7 +5,7 @@ import { resumeApi } from '../../../api/resumeApi';
 import ResumeBox from '../../Resume/ResumeBox';
 import ProfileDisplay from './ProfileDisplay';
 import ProfileEditForm from './ProfileEditForm';
-import useProfileDetail from './useProfileDetail';
+import useProfileDetail from '@/hooks/useProfileDetail';
 
 const ProfileForm = () => {
   const { id } = useParams();

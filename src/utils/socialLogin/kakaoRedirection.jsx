@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { REST_API_KEY, REDIRECT_URI, getKakaoLoginData } from "./KakaoLoginBtn";
-import { useLogin } from "../../api/hooks/useAuth";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { REST_API_KEY, REDIRECT_URI, getKakaoLoginData } from './KakaoLoginBtn';
+import { useLogin } from '../../hooks/useAuth';
 
 const KakaoRedirection = () => {
   const loginMutation = useLogin();
@@ -11,18 +11,18 @@ const KakaoRedirection = () => {
   };
   const navigate = useNavigate();
   const getToken = async () => {
-    const kakao_token = new URL(window.location.href).searchParams.get("code");
+    const kakao_token = new URL(window.location.href).searchParams.get('code');
     const res = axios.post(
-      "https://kauth.kakao.com/oauth/token",
+      'https://kauth.kakao.com/oauth/token',
       {
-        grant_type: "authorization_code",
+        grant_type: 'authorization_code',
         client_id: REST_API_KEY,
         redirect_uri: REDIRECT_URI,
         code: kakao_token,
       },
       {
         headers: {
-          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
       }
     );
@@ -31,23 +31,23 @@ const KakaoRedirection = () => {
 
   useEffect(() => {
     getToken()
-      .then(res => {
+      .then((res) => {
         if (res) {
           const kakao_token = res.data.access_token;
           if (kakao_token) {
             getKakaoLoginData(kakao_token)
-              .then(data => {
+              .then((data) => {
                 console.log(data);
-                handleLogin("kakao", data.id, data.properties.nickname);
-                navigate("/");
+                handleLogin('kakao', data.id, data.properties.nickname);
+                navigate('/');
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err);
               });
           }
         }
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, []);
 
   return <></>;
