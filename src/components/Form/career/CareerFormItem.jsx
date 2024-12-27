@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
 import ResumeBox from '../../Resume/ResumeBox';
 import CareerEditForm from './CareerEditForm';
 import { useParams } from 'react-router-dom';
 import useCareerDetail from '@/hooks/useCareerDetail';
-import useCareerFormik from '@/hooks/useCareerFormik';
+import useCustomFormik from '@/hooks/useCustomFormik';
 
 const CareerFormItem = ({ career }) => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
   const { updateCareer, deleteCareer } = useCareerDetail(id);
-  const formik = useCareerFormik({
-    id,
-    career,
+  const formik = useCustomFormik({
+    initialValues: {
+      resume_id: Number(id),
+      career_id: Number(career.career_id) || '',
+      company_name: career.company_name || '',
+      job_title: career.job_title || '',
+      career_status: career.career_status || '',
+      career_start_date: career.career_start_date || '',
+      career_end_date: career.career_end_date || '',
+      job_detail: career.job_detail || '',
+    },
     onSubmitCallback: (values) => {
       updateCareer.mutate(values);
       setIsEdit(false);
@@ -24,18 +31,18 @@ const CareerFormItem = ({ career }) => {
       {isEdit && <CareerEditForm formik={formik} setIsEdit={setIsEdit} />}
       <ResumeBox
         handleEdit={() => setIsEdit(true)}
-        handleDelete={() => deleteCareer.mutate(res.career_id)}
+        handleDelete={() => deleteCareer.mutate(career.career_id)}
       >
         <div className="education-item">
           <div>
-            <h3>{res.company_name}</h3>
-            <span>{res.job_title}</span>
+            <h3>{career.company_name}</h3>
+            <span>{career.job_title}</span>
             <span>
-              {res.career_start_date.replace('-', '. ')} ~{' '}
-              {res.career_end_date.replace('-', '. ')}
+              {career.career_start_date.replace('-', '. ')} ~{' '}
+              {career.career_end_date.replace('-', '. ')}
             </span>
           </div>
-          <p>{res.job_detail}</p>
+          <p>{career.job_detail}</p>
         </div>
       </ResumeBox>
     </>
