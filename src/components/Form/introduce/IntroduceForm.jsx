@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import AddButton from '../../Resume/AddButton';
 import ResumeBox from '../../Resume/ResumeBox';
 import IntroduceEditForm from './IntroduceEditForm';
 import useIntroduceDetail from './useIntroduceDetail';
-import useAdjustTextareaHeight from '../../../hooks/useAdjustTextareaHeight';
 
 const IntroduceForm = () => {
   const { id } = useParams();
-  const {
-    introduce,
-    getIntroduce,
-    createIntroduce,
-    updateIntroduce,
-    deleteIntroduce,
-  } = useIntroduceDetail(id);
+  const { getIntroduce, createIntroduce, updateIntroduce, deleteIntroduce } =
+    useIntroduceDetail(id);
+  const { data: introduce } = getIntroduce();
   const [isEdit, setEdit] = useState(false);
   const textareaRef = useRef(null);
 
@@ -27,7 +22,9 @@ const IntroduceForm = () => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      introduce ? updateIntroduce(values) : createIntroduce(values);
+      introduce.introduce_text
+        ? updateIntroduce.mutate(values)
+        : createIntroduce.mutate(values);
       setEdit(false);
     },
   });
@@ -37,11 +34,10 @@ const IntroduceForm = () => {
     setEdit(false);
   };
 
-  useEffect(() => {
-    getIntroduce();
-  }, []);
-
-  useAdjustTextareaHeight(textareaRef, formik.values.introduce_text);
+  const handleDelete = () => {
+    deleteIntroduce.mutate(introduce.introduce_id);
+    formik.resetForm();
+  };
 
   if (isEdit) {
     return (
@@ -55,11 +51,8 @@ const IntroduceForm = () => {
 
   if (formik.values.introduce_text.length > 0) {
     return (
-      <ResumeBox
-        handleEdit={() => setEdit(true)}
-        handleDelete={deleteIntroduce}
-      >
-        <div className="introduce-item">{formik.values.introduce_text}</div>
+      <ResumeBox handleEdit={() => setEdit(true)} handleDelete={handleDelete}>
+        <div className="introduce-item">{introduce?.introduce_text}</div>
       </ResumeBox>
     );
   }

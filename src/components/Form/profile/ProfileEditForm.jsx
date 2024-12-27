@@ -35,6 +35,7 @@ const ProfileEditForm = ({
 const ProfileInputFields = ({ formik }) => {
   const fields = [
     {
+      tag: 'input',
       id: 'profile_title',
       name: 'profile_title',
       label: '타이틀',
@@ -45,6 +46,7 @@ const ProfileInputFields = ({ formik }) => {
       values: formik.values.profile_title,
     },
     {
+      tag: 'input',
       id: 'job_title',
       name: 'job_title',
       label: '직무/직업',
@@ -57,6 +59,7 @@ const ProfileInputFields = ({ formik }) => {
   ];
   const fieldsWithFlex = [
     {
+      tag: 'input',
       id: 'email',
       name: 'email',
       label: '이메일',
@@ -66,6 +69,7 @@ const ProfileInputFields = ({ formik }) => {
       values: formik.values.email,
     },
     {
+      tag: 'input',
       id: 'phone',
       name: 'phone',
       label: '휴대폰 번호',
