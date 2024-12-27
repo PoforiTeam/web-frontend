@@ -8,9 +8,8 @@ import useIntroduceDetail from '@/hooks/useIntroduceDetail';
 
 const IntroduceForm = () => {
   const { id } = useParams();
-  const { getIntroduce, createIntroduce, updateIntroduce, deleteIntroduce } =
+  const { introduce, createIntroduce, updateIntroduce, deleteIntroduce } =
     useIntroduceDetail(id);
-  const { data: introduce } = getIntroduce();
   const [isEdit, setEdit] = useState(false);
   const textareaRef = useRef(null);
 
@@ -49,7 +48,7 @@ const IntroduceForm = () => {
     );
   }
 
-  if (Object.keys(introduce).length > 0) {
+  if (formik.values.introduce_text.length > 0) {
     return (
       <ResumeBox handleEdit={() => setEdit(true)} handleDelete={handleDelete}>
         <div className="introduce-item">{introduce?.introduce_text}</div>

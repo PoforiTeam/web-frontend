@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ResumeSection from '../../Resume/ResumeSection';
 import CareerFormItem from './CareerFormItem';
 import CareerEditForm from './CareerEditForm';
-import useCareerDetail from './useCareerDetail';
-import useCareerFormik from './useCareerFormik';
+import useCareerDetail from '@/hooks/useCareerDetail';
+import useCareerFormik from '@/hooks/useCareerFormik';
 
 const CareerForm = () => {
   const { id } = useParams();
   const [isNewForm, setIsNewForm] = useState(false);
-  const { getCareer, createCareer, careerList } = useCareerDetail(id);
+  const { createCareer, careerList } = useCareerDetail(id);
 
   const formik = useCareerFormik({
     id,
     onSubmitCallback: (values) => {
-      createCareer(values);
+      createCareer.mutate(values);
+      formik.resetForm();
       setIsNewForm(false);
     },
   });
-
-  useEffect(() => {
-    getCareer();
-  }, []);
 
   return (
     <>

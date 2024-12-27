@@ -3,8 +3,8 @@ import { useFormik } from 'formik';
 import ResumeBox from '../../Resume/ResumeBox';
 import CareerEditForm from './CareerEditForm';
 import { useParams } from 'react-router-dom';
-import useCareerDetail from './useCareerDetail';
-import useCareerFormik from './useCareerFormik';
+import useCareerDetail from '@/hooks/useCareerDetail';
+import useCareerFormik from '@/hooks/useCareerFormik';
 
 const CareerFormItem = ({ res }) => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ const CareerFormItem = ({ res }) => {
     id,
     res,
     onSubmitCallback: (values) => {
-      updateCareer(values);
+      updateCareer.mutate(values);
       setIsEdit(false);
     },
   });
@@ -24,7 +24,7 @@ const CareerFormItem = ({ res }) => {
       {isEdit && <CareerEditForm formik={formik} setIsEdit={setIsEdit} />}
       <ResumeBox
         handleEdit={() => setIsEdit(true)}
-        handleDelete={() => deleteCareer(res.career_id)}
+        handleDelete={() => deleteCareer.mutate(res.career_id)}
       >
         <div className="education-item">
           <div>

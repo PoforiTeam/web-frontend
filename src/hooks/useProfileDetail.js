@@ -5,20 +5,20 @@ import { querykeys } from '../constants/keys';
 const useProfileDetail = (id) => {
   const queryClient = useQueryClient();
 
-  const getProfile = () => {
-    const { data, isLoading, isError } = useQuery({
-      queryKey: [querykeys.PROFILE, id],
-      queryFn: async () => {
-        const { data: responseData } = await resumeApi.profile.detail(id);
-        if (!responseData.response) return null;
-        const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/public/${responseData.response.profile_image}`;
-        return { ...responseData.response, imagePreview: imageUrl };
-      },
-      enabled: !!id,
-    });
-
-    return { data, isLoading, isError };
-  };
+  const {
+    data: profile,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [querykeys.PROFILE, id],
+    queryFn: async () => {
+      const { data: responseData } = await resumeApi.profile.detail(id);
+      if (!responseData.response) return null;
+      const imageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/public/${responseData.response.profile_image}`;
+      return { ...responseData.response, imagePreview: imageUrl };
+    },
+    enabled: !!id,
+  });
 
   const createProfile = useMutation({
     mutationFn: async (values) => await resumeApi.profile.create(values),
@@ -38,12 +38,14 @@ const useProfileDetail = (id) => {
     mutationFn: async (profile_id) =>
       await resumeApi.profile.delete(profile_id),
     onSuccess: () => {
-      queryClient.removeQueries([querykeys.PROFILE, id]);
+      queryClient.invalidateQueries([querykeys.PROFILE, id]);
     },
   });
 
   return {
-    getProfile,
+    profile,
+    isLoading,
+    isError,
     createProfile,
     updateProfile,
     deleteProfile,

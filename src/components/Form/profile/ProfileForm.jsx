@@ -11,9 +11,8 @@ const ProfileForm = () => {
   const { id } = useParams();
   const [imagePreview, setImagePreview] = useState(null);
   const [isEdit, setEdit] = useState(false);
-  const { getProfile, createProfile, updateProfile, deleteProfile } =
+  const { profile, createProfile, updateProfile, deleteProfile } =
     useProfileDetail(id);
-  const { data: profile, isLoading, isError } = getProfile();
 
   const formik = useFormik({
     initialValues: {
