@@ -29,22 +29,24 @@ const CareerFormItem = ({ career }) => {
   return (
     <>
       {isEdit && <CareerEditForm formik={formik} setIsEdit={setIsEdit} />}
-      <ResumeBox
-        handleEdit={() => setIsEdit(true)}
-        handleDelete={() => deleteCareer.mutate(career.career_id)}
-      >
-        <div className="education-item">
-          <div>
-            <h3>{career.company_name}</h3>
-            <span>{career.job_title}</span>
-            <span>
-              {career.career_start_date.replace('-', '. ')} ~{' '}
-              {career.career_end_date.replace('-', '. ')}
-            </span>
+      {!isEdit && (
+        <ResumeBox
+          handleEdit={() => setIsEdit(true)}
+          handleDelete={() => deleteCareer.mutate(career.career_id)}
+        >
+          <div className="education-item">
+            <div>
+              <h3>{career.company_name}</h3>
+              <span>{career.job_title}</span>
+              <span>
+                {career.career_start_date.replace('-', '. ')} ~{' '}
+                {career.career_end_date.replace('-', '. ')}
+              </span>
+            </div>
+            <p>{career.job_detail}</p>
           </div>
-          <p>{career.job_detail}</p>
-        </div>
-      </ResumeBox>
+        </ResumeBox>
+      )}
     </>
   );
 };
