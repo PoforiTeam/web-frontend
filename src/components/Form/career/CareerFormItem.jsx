@@ -28,8 +28,9 @@ const CareerFormItem = ({ career }) => {
 
   return (
     <>
-      {isEdit && <CareerEditForm formik={formik} setIsEdit={setIsEdit} />}
-      {!isEdit && (
+      {isEdit ? (
+        <CareerEditForm formik={formik} setIsEdit={setIsEdit} />
+      ) : (
         <ResumeBox
           handleEdit={() => setIsEdit(true)}
           handleDelete={() => deleteCareer.mutate(career.career_id)}
