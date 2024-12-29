@@ -5,18 +5,18 @@ import { querykeys } from '../constants/keys';
 export default function useIntroduceDetail(id) {
   const queryClient = useQueryClient();
 
-  const getIntroduce = () => {
-    const { data, isLoading, isError } = useQuery({
-      queryKey: [querykeys.INTRODUCE, id],
-      queryFn: async () => {
-        const { data: responstData } = await resumeApi.introduce.detail(id);
-        return responstData.response;
-      },
-      enabled: !!id,
-    });
-
-    return { data, isLoading, isError };
-  };
+  const {
+    data: introduce,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [querykeys.INTRODUCE, id],
+    queryFn: async () => {
+      const { data: responstData } = await resumeApi.introduce.detail(id);
+      return responstData.response;
+    },
+    enabled: !!id,
+  });
 
   const createIntroduce = useMutation({
     mutationFn: async (values) => await resumeApi.introduce.create(values),
@@ -36,12 +36,14 @@ export default function useIntroduceDetail(id) {
     mutationFn: async (introduce_id) =>
       await resumeApi.introduce.delete(introduce_id),
     onSuccess: () => {
-      queryClient.removeQueries([querykeys.INTRODUCE, id]);
+      queryClient.invalidateQueries([querykeys.INTRODUCE, id]);
     },
   });
 
   return {
-    getIntroduce,
+    introduce,
+    isLoading,
+    isError,
     createIntroduce,
     updateIntroduce,
     deleteIntroduce,

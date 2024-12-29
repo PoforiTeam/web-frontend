@@ -33,7 +33,7 @@ const CustomInput = ({ fields }) => {
           >
             <option value="">선택하세요</option>
             {field.options.map((option, index) => (
-              <option key={index} value="option">
+              <option key={index} value={option}>
                 {option}
               </option>
             ))}

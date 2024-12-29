@@ -3,7 +3,7 @@ import React from 'react';
 const EditForm = ({ title, children, onSubmit, handleCancel }) => {
   return (
     <form className="resume-form" onSubmit={onSubmit}>
-      <h2>{title}</h2>
+      {title && <h2>{title}</h2>}
       {children}
       <div className="button-group">
         <button type="button" className="cancel-button" onClick={handleCancel}>

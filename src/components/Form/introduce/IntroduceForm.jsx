@@ -1,27 +1,25 @@
 import React, { useRef, useState } from 'react';
-import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import AddButton from '../../Resume/AddButton';
 import ResumeBox from '../../Resume/ResumeBox';
 import IntroduceEditForm from './IntroduceEditForm';
 import useIntroduceDetail from '@/hooks/useIntroduceDetail';
+import useCustomFormik from '../../../hooks/useCustomFormik';
 
 const IntroduceForm = () => {
   const { id } = useParams();
-  const { getIntroduce, createIntroduce, updateIntroduce, deleteIntroduce } =
+  const { introduce, createIntroduce, updateIntroduce, deleteIntroduce } =
     useIntroduceDetail(id);
-  const { data: introduce } = getIntroduce();
   const [isEdit, setEdit] = useState(false);
   const textareaRef = useRef(null);
 
-  const formik = useFormik({
+  const formik = useCustomFormik({
     initialValues: {
       resume_id: introduce?.resume_id || Number(id),
       introduce_id: introduce?.introduce_id || '',
       introduce_text: introduce?.introduce_text || '',
     },
-    enableReinitialize: true,
-    onSubmit: (values) => {
+    onSubmitCallback: (values) => {
       introduce.introduce_text
         ? updateIntroduce.mutate(values)
         : createIntroduce.mutate(values);

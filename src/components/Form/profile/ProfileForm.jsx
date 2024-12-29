@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { resumeApi } from '../../../api/resumeApi';
 import ResumeBox from '../../Resume/ResumeBox';
 import ProfileDisplay from './ProfileDisplay';
 import ProfileEditForm from './ProfileEditForm';
 import useProfileDetail from '@/hooks/useProfileDetail';
+import useCustomFormik from '../../../hooks/useCustomFormik';
 
 const ProfileForm = () => {
   const { id } = useParams();
   const [imagePreview, setImagePreview] = useState(null);
   const [isEdit, setEdit] = useState(false);
-  const { getProfile, createProfile, updateProfile, deleteProfile } =
+  const { profile, createProfile, updateProfile, deleteProfile } =
     useProfileDetail(id);
-  const { data: profile, isLoading, isError } = getProfile();
 
-  const formik = useFormik({
+  const formik = useCustomFormik({
     initialValues: {
       resume_id: Number(id),
       profile_id: profile?.profile_id || '',
@@ -25,8 +24,7 @@ const ProfileForm = () => {
       phone: profile?.phone || '',
       profile_image: profile?.profile_image || '',
     },
-    enableReinitialize: true,
-    onSubmit: (values) => {
+    onSubmitCallback: (values) => {
       Object.keys(profile).length > 1
         ? updateProfile.mutate(values)
         : createProfile.mutate(values);
