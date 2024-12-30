@@ -29,7 +29,6 @@ const ResumeForm = ({
       resume_id: resumeId,
     },
     onSubmitCallback: (values) => {
-      console.log(values);
       createItem.mutate(values);
       formik.resetForm();
       setIsNewForm(false);

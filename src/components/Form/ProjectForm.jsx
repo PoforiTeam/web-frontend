@@ -1,81 +1,77 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { resumeApi } from "../../api/resumeApi";
-import ResumeSection from "../Resume/ResumeSection";
-import ProjectFormItem from "./ProjectFormItem";
+import React from 'react';
+import Tips from '../common/Tips';
+import CustomInput from '../common/CustomInput';
+import ResumeForm from '@/components/common/ResumeForm';
+import useProjectFields from '../../hooks/useProjectFields';
 
 const ProjectForm = () => {
-  const { id } = useParams();
-  const [resList, setResList] = useState([]);
-  const [editIndices, setEditIndices] = useState([]);
-  const [isNewForm, setIsNewForm] = useState(false);
-
-  const getDetail = async () => {
-    try {
-      const { data } = await resumeApi.project.detail(id);
-      console.log(data.response);
-      setResList(data.response.result);
-    } catch (err) {
-      console.log(err);
-    }
+  const projectInitialValues = {
+    resume_id: '',
+    project_name: '',
+    project_agency: '',
+    project_status: '',
+    project_start_date: '',
+    project_end_date: '',
+    project_detail: '',
+    project_role: '',
+    project_tech: '',
   };
 
-  const handleEdit = index => {
-    setEditIndices(prev => [...prev, index]);
+  const projectRenderFields = (formik) => {
+    const { firstFields, secondFields, thirdFields, textareaFields } =
+      useProjectFields(formik);
+
+    const tipsData = [
+      '프로젝트는 지원할 업무와 가장 관련된 순으로 작성하는 것을 추천해요.',
+    ];
+    return (
+      <>
+        <div className="form-container">
+          <CustomInput fields={firstFields} />
+          <CustomInput fields={secondFields} />
+          <div className="form-group-flex">
+            <CustomInput fields={thirdFields} />
+          </div>
+          <Tips list={tipsData} />
+          {textareaFields.map((field, index) => (
+            <CustomInput key={index} fields={field} />
+          ))}
+        </div>
+      </>
+    );
   };
 
-  const handleCancel = index => {
-    setEditIndices(prev => prev.filter(i => i !== index));
+  const projectFormItem = (project) => {
+    return (
+      <div className="project-item">
+        <div>
+          <h1>{project.project_name}</h1>
+          <span>
+            {project.project_start_date.replace('-', '. ')} ~{' '}
+            {project.project_end_date.replace('-', '. ')}
+          </span>
+        </div>
+        <p>{project.project_detail}</p>
+        <div>
+          <h3>나의 역할</h3>
+          <p>{project.project_role}</p>
+        </div>
+        <div>
+          <h3>사용 기술</h3>
+          <p>{project.project_tech}</p>
+        </div>
+      </div>
+    );
   };
-
-  const handleNewForm = () => {
-    setIsNewForm(true);
-  };
-
-  const handleCancelNewForm = () => {
-    setIsNewForm(false);
-  };
-
-  useEffect(() => {
-    getDetail();
-  }, []);
 
   return (
-    <>
-      <ResumeSection title="프로젝트" onClick={handleNewForm} />
-
-      {isNewForm && (
-        <ProjectFormItem
-          id={id}
-          res={{
-            resume_id: Number(id),
-            project_name: "",
-            project_agency: "",
-            project_status: "",
-            project_start_date: "",
-            project_end_date: "",
-            project_detail: "",
-            project_role: "",
-            project_tech: "",
-          }}
-          isEdit={true}
-          handleEdit={handleNewForm}
-          handleCancel={handleCancelNewForm}
-          getDetail={getDetail}
-        />
-      )}
-      {resList.map((res, index) => (
-        <ProjectFormItem
-          key={res.project_id}
-          id={id}
-          res={res}
-          isEdit={editIndices.includes(index)}
-          handleEdit={() => handleEdit(index)}
-          handleCancel={() => handleCancel(index)}
-          getDetail={getDetail}
-        />
-      ))}
-    </>
+    <ResumeForm
+      title={'프로젝트'}
+      category={'project'}
+      initialValues={projectInitialValues}
+      renderFields={projectRenderFields}
+      FormItem={projectFormItem}
+    />
   );
 };
 

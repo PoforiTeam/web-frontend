@@ -6,7 +6,6 @@ const Tips = ({ title, list }) => {
       <span>🙆‍♀️</span>
       <div>
         {title}
-        <br />
         {list && list.length > 0 && (
           <ul>
             {list.map((item, index) => (
