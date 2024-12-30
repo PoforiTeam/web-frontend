@@ -1,74 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { resumeApi } from "../../api/resumeApi";
-import ResumeSection from "../Resume/ResumeSection";
-import LinksFormItem from "./LinksFormItem";
+import React from 'react';
+import CustomInput from '../common/CustomInput';
+import ResumeForm from '@/components/common/ResumeForm';
+import useLinkFields from '../../hooks/useLinkFields';
 
 const LinksForm = () => {
-  const { id } = useParams();
-  const [resList, setResList] = useState([]);
-  const [editIndices, setEditIndices] = useState([]);
-  const [isNewForm, setIsNewForm] = useState(false);
-
-  const getDetail = async () => {
-    try {
-      const { data } = await resumeApi.link.detail(id);
-      console.log(data.response);
-      setResList(data.response.result);
-    } catch (err) {
-      console.log(err);
-    }
+  const linkInitialValues = {
+    resume_id: '',
+    link_id: '',
+    link_category: '',
+    link_detail: '',
   };
 
-  const handleEdit = index => {
-    setEditIndices(prev => [...prev, index]);
+  const linkRenderFields = (formik) => {
+    const { firstFields, secondFields } = useLinkFields(formik);
+
+    return (
+      <>
+        <div className="form-container">
+          <CustomInput fields={firstFields} />
+          <CustomInput fields={secondFields} />
+        </div>
+      </>
+    );
   };
 
-  const handleCancel = index => {
-    setEditIndices(prev => prev.filter(i => i !== index));
+  const linkFormItem = (link) => {
+    return (
+      <div className="education-item">
+        <div>
+          <h3>{link.link_category}</h3>
+        </div>
+        <a href={link.link_detail} target="_blank" rel="noopener noreferrer">
+          {link.link_detail}
+        </a>
+      </div>
+    );
   };
 
-  const handleNewForm = () => {
-    setIsNewForm(true);
-  };
-
-  const handleCancelNewForm = () => {
-    setIsNewForm(false);
-  };
-
-  useEffect(() => {
-    getDetail();
-  }, []);
   return (
-    <>
-      <ResumeSection title="링크" onClick={handleNewForm} />
-
-      {isNewForm && (
-        <LinksFormItem
-          id={id}
-          res={{
-            resume_id: Number(id),
-            link_category: "",
-            link_detail: "",
-          }}
-          isEdit={true}
-          handleEdit={handleNewForm}
-          handleCancel={handleCancelNewForm}
-          getDetail={getDetail}
-        />
-      )}
-      {resList.map((res, index) => (
-        <LinksFormItem
-          key={res.link_id}
-          id={id}
-          res={res}
-          isEdit={editIndices.includes(index)}
-          handleEdit={() => handleEdit(index)}
-          handleCancel={() => handleCancel(index)}
-          getDetail={getDetail}
-        />
-      ))}
-    </>
+    <ResumeForm
+      title={'링크'}
+      category={'link'}
+      initialValues={linkInitialValues}
+      renderFields={linkRenderFields}
+      FormItem={linkFormItem}
+    />
   );
 };
 

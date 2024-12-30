@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import EducationForm from '../../components/Form/EducationForm';
-import ExperienceForm from '../../components/Form/ExperienceForm';
 import IntroduceForm from '../../components/Form/introduce/IntroduceForm';
 import LinksForm from '../../components/Form/LinksForm';
 import ProfileForm from '../../components/Form/profile/ProfileForm';
@@ -12,6 +11,7 @@ import './Resume.scss';
 import { resumeApi } from '../../api/resumeApi';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ExperienceForm from '../../components/Form/ExperienceForm';
 
 const formComponents = {
   profile: ProfileForm,

@@ -1,79 +1,69 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { resumeApi } from "../../api/resumeApi";
-import ResumeSection from "../Resume/ResumeSection";
-import ExperienceFormItem from "./ExperienceFormItem";
+import React from 'react';
+import CustomInput from '../common/CustomInput';
+import ResumeForm from '@/components/common/ResumeForm';
+import useExperienceFields from '../../hooks/useExperienceFields';
 
 const ExperienceForm = () => {
-  const { id } = useParams();
-  const [resList, setResList] = useState([]);
-  const [editIndices, setEditIndices] = useState([]);
-  const [isNewForm, setIsNewForm] = useState(false);
-
-  const getDetail = async () => {
-    try {
-      const { data } = await resumeApi.experience.detail(id);
-      console.log(data.response);
-      setResList(data.response.result);
-    } catch (err) {
-      console.log(err);
-    }
+  const experienceInitialValues = {
+    resume_id: '',
+    experience_category: '',
+    experience_name: '',
+    experience_agency: '',
+    experience_is_period: '',
+    experience_start_date: '',
+    experience_end_date: '',
+    experience_detail: '',
   };
 
-  const handleEdit = index => {
-    setEditIndices(prev => [...prev, index]);
+  const experienceRenderFields = (formik) => {
+    const { firstFields, secondFields, thirdFields, textareaFields } =
+      useExperienceFields(formik);
+
+    const tipsData = [
+      '프로젝트는 지원할 업무와 가장 관련된 순으로 작성하는 것을 추천해요.',
+    ];
+    return (
+      <>
+        <div className="form-container">
+          <CustomInput fields={firstFields} />
+          <div className="form-group-flex">
+            <CustomInput fields={secondFields} />
+          </div>
+          <div className="form-group-flex">
+            <CustomInput fields={thirdFields} />
+          </div>
+          <CustomInput fields={textareaFields} />
+        </div>
+      </>
+    );
   };
 
-  const handleCancel = index => {
-    setEditIndices(prev => prev.filter(i => i !== index));
+  const experienceFormItem = (experience) => {
+    return (
+      <div className="project-item">
+        <div>
+          <h1>{experience.experience_name}</h1>
+          {experience.experience_agency && (
+            <span>{experience.experience_agency}</span>
+          )}
+          <span>
+            {experience.experience_start_date?.replace('-', '. ')} ~{' '}
+            {experience.experience_end_date?.replace('-', '. ')}
+          </span>
+        </div>
+        <p>{experience.experience_detail}</p>
+      </div>
+    );
   };
 
-  const handleNewForm = () => {
-    setIsNewForm(true);
-  };
-
-  const handleCancelNewForm = () => {
-    setIsNewForm(false);
-  };
-
-  useEffect(() => {
-    getDetail();
-  }, []);
   return (
-    <>
-      <ResumeSection title="경험" onClick={handleNewForm} />
-
-      {isNewForm && (
-        <ExperienceFormItem
-          id={id}
-          res={{
-            resume_id: Number(id),
-            experience_category: "",
-            experience_name: "",
-            experience_agency: "",
-            experience_is_period: "",
-            experience_start_date: "",
-            experience_end_date: "",
-            experience_detail: "",
-          }}
-          isEdit={true}
-          handleEdit={handleNewForm}
-          handleCancel={handleCancelNewForm}
-          getDetail={getDetail}
-        />
-      )}
-      {resList.map((res, index) => (
-        <ExperienceFormItem
-          key={res.experience_id}
-          id={id}
-          res={res}
-          isEdit={editIndices.includes(index)}
-          handleEdit={() => handleEdit(index)}
-          handleCancel={() => handleCancel(index)}
-          getDetail={getDetail}
-        />
-      ))}
-    </>
+    <ResumeForm
+      title={'경험'}
+      category={'experience'}
+      initialValues={experienceInitialValues}
+      renderFields={experienceRenderFields}
+      FormItem={experienceFormItem}
+    />
   );
 };
 
