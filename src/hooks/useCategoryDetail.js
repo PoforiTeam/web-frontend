@@ -12,8 +12,7 @@ export default function useCategoryDetail({ id, category, customQuery }) {
     queryKey: [category, id],
     queryFn: async () => {
       if (customQuery) {
-        const customResult = await customQuery();
-        return customResult;
+        customQuery(id);
       }
       const { data } = await resumeApi[category].detail(id);
       return data.response.result;

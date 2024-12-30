@@ -58,13 +58,6 @@ const ProfileForm = () => {
 
   return (
     <>
-      <ResumeBox
-        handleEdit={() => setEdit(true)}
-        handleDelete={() => deleteProfile.mutate(profile.profile_id)}
-      >
-        <ProfileDisplay formik={formik} imagePreview={imagePreview} />
-      </ResumeBox>
-
       {isEdit && (
         <ProfileEditForm
           formik={formik}
@@ -72,6 +65,15 @@ const ProfileForm = () => {
           handleImageUpload={handleImageUpload}
           imagePreview={imagePreview}
         />
+      )}
+
+      {!isEdit && (
+        <ResumeBox
+          handleEdit={() => setEdit(true)}
+          handleDelete={() => deleteProfile.mutate(profile.profile_id)}
+        >
+          <ProfileDisplay formik={formik} imagePreview={imagePreview} />
+        </ResumeBox>
       )}
     </>
   );
