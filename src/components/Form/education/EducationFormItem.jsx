@@ -1,8 +1,8 @@
-import React from "react";
-import { useFormik } from "formik";
-import { resumeApi } from "../../api/resumeApi";
-import ResumeBox from "../Resume/ResumeBox";
-import Editor from "../common/Editor";
+import React from 'react';
+import { useFormik } from 'formik';
+import { resumeApi } from '../../../api/resumeApi';
+import ResumeBox from '../../Resume/ResumeBox';
+import Editor from '../../common/Editor';
 
 const EducationFormItem = ({
   id,
@@ -17,14 +17,14 @@ const EducationFormItem = ({
 }) => {
   const initialValues = {
     resume_id: Number(id),
-    education_id: Number(education.education_id) || "",
-    education_category: education.education_category || "",
-    education_name: education.education_name || "",
-    major: education.major || "",
-    education_status: education.education_status || "",
-    enter_date: education.enter_date || "",
-    graduate_date: education.graduate_date || "",
-    detail: education.detail || "",
+    education_id: Number(education.education_id) || '',
+    education_category: education.education_category || '',
+    education_name: education.education_name || '',
+    major: education.major || '',
+    education_status: education.education_status || '',
+    enter_date: education.enter_date || '',
+    graduate_date: education.graduate_date || '',
+    detail: education.detail || '',
   };
 
   const formik = useFormik({
@@ -90,8 +90,8 @@ const EducationFormItem = ({
               <h3>{education.education_name}</h3>
               {education.major && <span>{education.major}</span>}
               <span>
-                {education.enter_date.replace("-", ". ")} ~{" "}
-                {education.graduate_date.replace("-", ". ")}
+                {education.enter_date.replace('-', '. ')} ~{' '}
+                {education.graduate_date.replace('-', '. ')}
               </span>
             </div>
             <p>{education.detail}</p>
