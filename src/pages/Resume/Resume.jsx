@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import EducationFormLagacy from '../../components/Form/education/EducationForm';
 import IntroduceForm from '../../components/Form/introduce/IntroduceForm';
 import LinksForm from '../../components/Form/LinksForm';
 import ProfileForm from '../../components/Form/profile/ProfileForm';
@@ -74,7 +73,6 @@ const Resume = () => {
                 })} */}
               <ProfileForm />
               <IntroduceForm />
-              {/* <EducationFormLagacy isUpdate={isUpdate} setUpdate={setUpdate} /> */}
               <EducationForm />
               <CareerForm />
               <ProjectForm />
