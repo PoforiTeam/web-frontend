@@ -15,7 +15,12 @@ export default function useCategoryDetail({ id, category, customQuery }) {
         customQuery(id);
       }
       const { data } = await resumeApi[category].detail(id);
-      return data.response.result;
+
+      const sortedData = data.response.result.sort(
+        (a, b) => a[`${category}_sub_order`] - b[`${category}_sub_order`]
+      );
+
+      return sortedData;
     },
     enabled: !!id,
   });
@@ -41,6 +46,13 @@ export default function useCategoryDetail({ id, category, customQuery }) {
     },
   });
 
+  const updateOrder = useMutation({
+    mutationFn: async (list) => await resumeApi.order.detail(list),
+    onSuccess: () => {
+      queryClient.invalidateQueries([category, id]);
+    },
+  });
+
   return {
     itemList,
     isLoading,
@@ -48,5 +60,6 @@ export default function useCategoryDetail({ id, category, customQuery }) {
     createItem,
     updateItem,
     deleteItem,
+    updateOrder,
   };
 }
