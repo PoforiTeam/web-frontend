@@ -58,16 +58,14 @@ const ProfileForm = () => {
 
   return (
     <>
-      {isEdit && (
+      {isEdit ? (
         <ProfileEditForm
           formik={formik}
           handleCancel={handleCancel}
           handleImageUpload={handleImageUpload}
           imagePreview={imagePreview}
         />
-      )}
-
-      {!isEdit && (
+      ) : (
         <ResumeBox
           handleEdit={() => setEdit(true)}
           handleDelete={() => deleteProfile.mutate(profile.profile_id)}
